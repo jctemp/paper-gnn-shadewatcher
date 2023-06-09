@@ -29,7 +29,12 @@ It leverages the fact that it can encode structured information efficiently and 
 
 == Recommender systems <sec-recommender-systems>
 
-// (formal definiton, structure, properties, related use case)
+Recommender systems are methods that one typically uses in user-item relationship scenarios @recommendation-2021.
+It analyses the user-item interactions using approaches like collaborative filtering.
+The method can make personalised recommendations to users based on the gained information through a selected approach.
+
+We can express the idea as a $k$-partite graph, where $k$ denotes the number of disjoint sets.
+For example, a bipartite graph (@eq-graph-bipartite) represents user-items interactions where we have two sets: users ($cal(U)$) and items ($cal(I)$).
 
 $
 cal(G) &= (cal(V), cal(E)) \
@@ -37,7 +42,17 @@ cal(E) &= {{u, i} : u in cal(U),i in cal(I)} \
 cal(V) &= cal(U) union cal(I) : cal(U) sect cal(I) = nothing
 $ <eq-graph-bipartite>
 
+Literature #cite("sparsity-problem-2004", "recommendation-2021", "kgat-2019") elaborates on challenges like incomplete connections and the amount of data that is needed to be analysed.
+Research aimed to improve collaborative filtering for these challenges.
+However, it still needs more performance and explainability in some cases, e.g. e-commerce  @collaborative-filtering-2018.
+Further, one aims to improve recommendations by accommodating more information, e.g., partitioning and side information, to discover high-order connections #cite("kgat-2019", "collaborative-filtering-2018").
+
+The ShadeWatcher authors adopted the recommendation approach for threat detection and effectively applied the concept described in @kgat-2019.
+Accordingly, the following sections will reveal the connection between threat analysis and recommendation.
+
 == Provenance graph <sec-provenance-graph>
+
+// (formal definiton, structure, properties, related use case)
 
 $
 cal(G)_P &= (cal(V), cal(E)) \
@@ -119,3 +134,7 @@ $ <eq-shadewatcher-loss>
 $
 theta = {bold(e)_h, bold(e)_r, bold(e)_t, bold(W)_r, bold(W)^((l)) : h,t in cal(V), r in cal(E), l in {1,...,L}}
 $ <eq-shadewatcher-params>
+
+$
+italic("similarity") = bold(a) dot bold(b) = cos(theta) dot || bold(a) ||_2 dot || bold(b) ||_2
+$ <eq_cosine_similarity>
