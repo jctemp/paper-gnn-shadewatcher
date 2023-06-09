@@ -1,4 +1,4 @@
-@inproceedings{shadewatcher2022,
+@inproceedings{shadewatcher-2022,
   author={Zengy, Jun and Wang, Xiang and Liu, Jiahao and Chen, Yinfang and Liang, Zhenkai and Chua, Tat-Seng and Chua, Zheng Leong},
   booktitle={2022 IEEE Symposium on Security and Privacy (SP)}, 
   title={SHADEWATCHER: Recommendation-guided Cyber Threat Analysis using System Audit Records}, 
@@ -8,131 +8,7 @@
   pages={489-506},
   doi={10.1109/SP46214.2022.9833669}}
 
-@misc{shadewatcherrepo2022,
-  author = {Zengy, Jun and Wang, Xiang and Liu, Jiahao and Chen, Yinfang and Liang, Zhenkai and Chua, Tat-Seng and Chua, Zheng Leong},
-  title = {ShadeWatcher},
-  year = {2013},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {https://github.com/jun-zeng/ShadeWatcher},
-  commit = {0031dfbb354b7cdfdbe9cbc52371f78c9ab83bd4}
-}
-}
-
-@inproceedings{watson2021,
-  title={WATSON: Abstracting Behaviors from Audit Logs via Aggregation of Contextual Semantics.},
-  author={Zeng, Jun and Chua, Zheng Leong and Chen, Yinfang and Ji, Kaihang and Liang, Zhenkai and Mao, Jian},
-  booktitle={NDSS},
-  year={2021}
-}
-
-@article{sparsity_problem,
-author = {Huang, Zan and Chen, Hsinchun and Zeng, Daniel},
-title = {Applying Associative Retrieval Techniques to Alleviate the Sparsity Problem in Collaborative Filtering},
-year = {2004},
-issue_date = {January 2004},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-volume = {22},
-number = {1},
-issn = {1046-8188},
-url = {https://doi.org/10.1145/963770.963775},
-doi = {10.1145/963770.963775},
-abstract = {Recommender systems are being widely applied in many application settings to suggest products, services, and information items to potential consumers. Collaborative filtering, the most successful recommendation approach, makes recommendations based on past transactions and feedback from consumers sharing similar interests. A major problem limiting the usefulness of collaborative filtering is the sparsity problem, which refers to a situation in which transactional or feedback data is sparse and insufficient to identify similarities in consumer interests. In this article, we propose to deal with this sparsity problem by applying an associative retrieval framework and related spreading activation algorithms to explore transitive associations among consumers through their past transactions and feedback. Such transitive associations are a valuable source of information to help infer consumer interests and can be explored to deal with the sparsity problem. To evaluate the effectiveness of our approach, we have conducted an experimental study using a data set from an online bookstore. We experimented with three spreading activation algorithms including a constrained Leaky Capacitor algorithm, a branch-and-bound serial symbolic search algorithm, and a Hopfield net parallel relaxation search algorithm. These algorithms were compared with several collaborative filtering approaches that do not consider the transitive associations: a simple graph search approach, two variations of the user-based approach, and an item-based approach. Our experimental results indicate that spreading activation-based approaches significantly outperformed the other collaborative filtering methods as measured by recommendation precision, recall, the F-measure, and the rank score. We also observed the over-activation effect of the spreading activation approach, that is, incorporating transitive associations with past transactional data that is not sparse may "dilute" the data used to infer user preferences and lead to degradation in recommendation performance.},
-journal = {ACM Trans. Inf. Syst.},
-month = {jan},
-pages = {116–142},
-numpages = {27},
-keywords = {collaborative filtering, associative retrieval, sparsity problem, spreading activation, Recommender system}
-}
-
-@INPROCEEDINGS{recommendation,
-  author={Khatter, Harsh and Goel, Nishtha and Gupta, Naina and Gulati, Muskan},
-  booktitle={2021 Third International Conference on Inventive Research in Computing Applications (ICIRCA)}, 
-  title={Movie Recommendation System using Cosine Similarity with Sentiment Analysis}, 
-  year={2021},
-  volume={},
-  number={},
-  pages={597-603},
-  doi={10.1109/ICIRCA51532.2021.9544794}}
-
-@inproceedings{trustworthy-provenance2015,
-author = {Bates, Adam and Tian, Dave and Butler, Kevin R. B. and Moyer, Thomas},
-title = {Trustworthy Whole-System Provenance for the Linux Kernel},
-year = {2015},
-isbn = {9781931971232},
-publisher = {USENIX Association},
-address = {USA},
-abstract = {In a provenance-aware system, mechanisms gather and report metadata that describes the history of each object being processed on the system, allowing users to understand how data objects came to exist in their present state. However, while past work has demonstrated the usefulness of provenance, less attention has been given to securing provenance-aware systems. Provenance itself is a ripe attack vector, and its authenticity and integrity must be guaranteed before it can be put to use.We present Linux Provenance Modules (LPM), the first general framework for the development of provenance-aware systems. We demonstrate that LPM creates a trusted provenance-aware execution environment, collecting complete whole-system provenance while imposing as little as 2.7% performance overhead on normal system operation. LPM introduces new mechanisms for secure provenance layering and authenticated communication between provenance-aware hosts, and also interoperates with existing mechanisms to provide strong security assurances. To demonstrate the potential uses of LPM, we design a Provenance-Based Data Loss Prevention (PB-DLP) system. We implement PBDLP as a file transfer application that blocks the transmission of files derived from sensitive ancestors while imposing just tens of milliseconds overhead. LPM is the first step towards widespread deployment of trustworthy provenance-aware applications.},
-booktitle = {Proceedings of the 24th USENIX Conference on Security Symposium},
-pages = {319–334},
-numpages = {16},
-location = {Washington, D.C.},
-series = {SEC'15}
-}
-
-@inproceedings{provenance-aware2006,
-author = {Muniswamy-Reddy, Kiran-Kumar and Holland, David A. and Braun, Uri and Seltzer, Margo},
-title = {Provenance-Aware Storage Systems},
-year = {2006},
-publisher = {USENIX Association},
-address = {USA},
-abstract = {A Provenance-Aware Storage System (PASS) is a storage system that automatically collects and maintains provenance or lineage, the complete history or ancestry of an item. We discuss the advantages of treating provenance as meta-data collected and maintained by the storage system, rather than as manual annotations stored in a separately administered database. We describe a PASS implementation, discussing the challenges it presents, performance cost it incurs, and the new functionality it enables. We show that with reasonable overhead, we can provide useful functionality not available in today's file systems or provenance management systems.},
-booktitle = {Proceedings of the Annual Conference on USENIX '06 Annual Technical Conference},
-pages = {4},
-numpages = {1},
-location = {Boston, MA},
-series = {ATEC '06}
-}
-
-@inproceedings{provenance_auditing2012,
-author = {Gehani, Ashish and Tariq, Dawood},
-title = {SPADE: Support for Provenance Auditing in Distributed Environments},
-year = {2012},
-isbn = {9783642351693},
-publisher = {Springer-Verlag},
-address = {Berlin, Heidelberg},
-abstract = {SPADE is an open source software infrastructure for data provenance collection and management. The underlying data model used throughout the system is graph-based, consisting of vertices and directed edges that are modeled after the node and relationship types described in the Open Provenance Model. The system has been designed to decouple the collection, storage, and querying of provenance metadata. At its core is a novel provenance kernel that mediates between the producers and consumers of provenance information, and handles the persistent storage of records. It operates as a service, peering with remote instances to enable distributed provenance queries. The provenance kernel on each host handles the buffering, filtering, and multiplexing of incoming metadata from multiple sources, including the operating system, applications, and manual curation. Provenance elements can be located locally with queries that use wildcard, fuzzy, proximity, range, and Boolean operators. Ancestor and descendant queries are transparently propagated across hosts until a terminating expression is satisfied, while distributed path queries are accelerated with provenance sketches.},
-booktitle = {Proceedings of the 13th International Middleware Conference},
-pages = {101–120},
-numpages = {20},
-location = {ontreal, Quebec, Canada},
-series = {Middleware '12}
-}
-
-@article{provenance_detection2016,
-title = {Unifying intrusion detection and forensic analysis via provenance awareness},
-journal = {Future Generation Computer Systems},
-volume = {61},
-pages = {26-36},
-year = {2016},
-issn = {0167-739X},
-doi = {https://doi.org/10.1016/j.future.2016.02.005},
-url = {https://www.sciencedirect.com/science/article/pii/S0167739X16300188},
-author = {Yulai Xie and Dan Feng and Zhipeng Tan and Junzhe Zhou},
-keywords = {Provenance, Intrusion detection, Forensic analysis, False alarm},
-abstract = {The existing host-based intrusion detection methods are mainly based on recording and analyzing the system calls of the invasion processes (such as exploring the sequences of system calls and their occurring probabilities). However, these methods are not efficient enough on the detection precision as they do not reveal the inherent intrusion events in detail (e.g., where are the system vulnerabilities and what causes the invasion are both not mentioned). On the other hand, though the log-based forensic analysis can enhance the understanding of how these invasion processes break into the system and what files are affected by them, it is a very cumbersome process to manually acquire information from logs which consist of the users’ normal behavior and intruders’ illegal behavior together. This paper proposes to use provenance, the history or lineage of an object that explicitly represents the dependency relationship between the damaged files and the intrusion processes, rather than the underlying system calls, to detect and analyze intrusions. Provenance more accurately reveals and records the data and control flow between files and processes, reducing the potential false alarm caused by system call sequences. Moreover, the warning report during intrusion can explicitly output system vulnerabilities and intrusion sources, and provide detection points for further provenance graph based forensic analysis. Experimental results show that this framework can identify the intrusion with high detection rate, lower false alarm rate, and smaller detection time overhead compared to traditional system call based method. In addition, it can analyze the system vulnerabilities and attack sources quickly and accurately.}
-}
-
-@inproceedings{knowledge_graph_science2018,
-author = {Auer, S\"{o}ren and Kovtun, Viktor and Prinz, Manuel and Kasprzik, Anna and Stocker, Markus and Vidal, Maria Esther},
-title = {Towards a Knowledge Graph for Science},
-year = {2018},
-isbn = {9781450354899},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3227609.3227689},
-doi = {10.1145/3227609.3227689},
-abstract = {The document-centric workflows in science have reached (or already exceeded) the limits of adequacy. This is emphasized by recent discussions on the increasing proliferation of scientific literature and the reproducibility crisis. This presents an opportunity to rethink the dominant paradigm of document-centric scholarly information communication and transform it into knowledge-based information flows by representing and expressing information through semantically rich, interlinked knowledge graphs. At the core of knowledge-based information flows is the creation and evolution of information models that establish a common understanding of information communicated between stakeholders as well as the integration of these technologies into the infrastructure and processes of search and information exchange in the research library of the future. By integrating these models into existing and new research infrastructure services, the information structures that are currently still implicit and deeply hidden in documents can be made explicit and directly usable. This has the potential to revolutionize scientific work as information and research results can be seamlessly interlinked with each other and better matched to complex information needs. Furthermore, research results become directly comparable and easier to reuse. As our main contribution, we propose the vision of a knowledge graph for science, present a possible infrastructure for such a knowledge graph as well as our early attempts towards an implementation of the infrastructure.},
-booktitle = {Proceedings of the 8th International Conference on Web Intelligence, Mining and Semantics},
-articleno = {1},
-numpages = {6},
-keywords = {Knowledge Graph, Science and Technology, Libraries, Information Science, Research Infrastructure},
-location = {Novi Sad, Serbia},
-series = {WIMS '18}
-}
-
-@article{knowledge_graphs2022,
+@article{knowledge-graphs-2022,
 author = {Hogan, Aidan and Blomqvist, Eva and Cochez, Michael and D’amato, Claudia and Melo, Gerard De and Gutierrez, Claudio and Kirrane, Sabrina and Gayo, Jos\'{e} Emilio Labra and Navigli, Roberto and Neumaier, Sebastian and Ngomo, Axel-Cyrille Ngonga and Polleres, Axel and Rashid, Sabbir M. and Rula, Anisa and Schmelzeisen, Lukas and Sequeda, Juan and Staab, Steffen and Zimmermann, Antoine},
 title = {Knowledge Graphs},
 year = {2021},
@@ -152,83 +28,51 @@ numpages = {37},
 keywords = {shapes, graph neural networks, rule mining, embeddings, Knowledge graphs, graph databases, ontologies, graph query languages, graph algorithms}
 }
 
-@article{knowledge_graph_reasoning2020,
-title = {A review: Knowledge reasoning over knowledge graph},
-journal = {Expert Systems with Applications},
-volume = {141},
-pages = {112948},
-year = {2020},
-issn = {0957-4174},
-doi = {https://doi.org/10.1016/j.eswa.2019.112948},
-url = {https://www.sciencedirect.com/science/article/pii/S0957417419306669},
-author = {Xiaojun Chen and Shengbin Jia and Yang Xiang},
-keywords = {Knowledge graph, Reasoning, Rule-based reasoning, Distributed representation-based reasoning, Neural network-based reasoning},
-abstract = {Mining valuable hidden knowledge from large-scale data relies on the support of reasoning technology. Knowledge graphs, as a new type of knowledge representation, have gained much attention in natural language processing. Knowledge graphs can effectively organize and represent knowledge so that it can be efficiently utilized in advanced applications. Recently, reasoning over knowledge graphs has become a hot research topic, since it can obtain new knowledge and conclusions from existing data. Herein we review the basic concept and definitions of knowledge reasoning and the methods for reasoning over knowledge graphs. Specifically, we dissect the reasoning methods into three categories: rule-based reasoning, distributed representation-based reasoning and neural network-based reasoning. We also review the related applications of knowledge graph reasoning, such as knowledge graph completion, question answering, and recommender systems. Finally, we discuss the remaining challenges and research opportunities for knowledge graph reasoning.}
+@inproceedings{knowledge-graph-science-2018,
+author = {Auer, S\"{o}ren and Kovtun, Viktor and Prinz, Manuel and Kasprzik, Anna and Stocker, Markus and Vidal, Maria Esther},
+title = {Towards a Knowledge Graph for Science},
+year = {2018},
+isbn = {9781450354899},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3227609.3227689},
+doi = {10.1145/3227609.3227689},
+abstract = {The document-centric workflows in science have reached (or already exceeded) the limits of adequacy. This is emphasized by recent discussions on the increasing proliferation of scientific literature and the reproducibility crisis. This presents an opportunity to rethink the dominant paradigm of document-centric scholarly information communication and transform it into knowledge-based information flows by representing and expressing information through semantically rich, interlinked knowledge graphs. At the core of knowledge-based information flows is the creation and evolution of information models that establish a common understanding of information communicated between stakeholders as well as the integration of these technologies into the infrastructure and processes of search and information exchange in the research library of the future. By integrating these models into existing and new research infrastructure services, the information structures that are currently still implicit and deeply hidden in documents can be made explicit and directly usable. This has the potential to revolutionize scientific work as information and research results can be seamlessly interlinked with each other and better matched to complex information needs. Furthermore, research results become directly comparable and easier to reuse. As our main contribution, we propose the vision of a knowledge graph for science, present a possible infrastructure for such a knowledge graph as well as our early attempts towards an implementation of the infrastructure.},
+booktitle = {Proceedings of the 8th International Conference on Web Intelligence, Mining and Semantics},
+articleno = {1},
+numpages = {6},
+keywords = {Knowledge Graph, Science and Technology, Libraries, Information Science, Research Infrastructure},
+location = {Novi Sad, Serbia},
+series = {WIMS '18}
 }
 
-@article{bipartite_graph2007,
-  title = {Bipartite network projection and personal recommendation},
-  author = {Zhou, Tao and Ren, Jie and Medo, Mat\'u\ifmmode \check{s}\else \v{s}\fi{} and Zhang, Yi-Cheng},
-  journal = {Phys. Rev. E},
-  volume = {76},
-  issue = {4},
-  pages = {046115},
-  numpages = {7},
-  year = {2007},
-  month = {Oct},
-  publisher = {American Physical Society},
-  doi = {10.1103/PhysRevE.76.046115},
-  url = {https://link.aps.org/doi/10.1103/PhysRevE.76.046115}
+@article{sparsity-problem-2004,
+author = {Huang, Zan and Chen, Hsinchun and Zeng, Daniel},
+title = {Applying Associative Retrieval Techniques to Alleviate the Sparsity Problem in Collaborative Filtering},
+year = {2004},
+issue_date = {January 2004},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {22},
+number = {1},
+issn = {1046-8188},
+url = {https://doi.org/10.1145/963770.963775},
+doi = {10.1145/963770.963775},
+abstract = {Recommender systems are being widely applied in many application settings to suggest products, services, and information items to potential consumers. Collaborative filtering, the most successful recommendation approach, makes recommendations based on past transactions and feedback from consumers sharing similar interests. A major problem limiting the usefulness of collaborative filtering is the sparsity problem, which refers to a situation in which transactional or feedback data is sparse and insufficient to identify similarities in consumer interests. In this article, we propose to deal with this sparsity problem by applying an associative retrieval framework and related spreading activation algorithms to explore transitive associations among consumers through their past transactions and feedback. Such transitive associations are a valuable source of information to help infer consumer interests and can be explored to deal with the sparsity problem. To evaluate the effectiveness of our approach, we have conducted an experimental study using a data set from an online bookstore. We experimented with three spreading activation algorithms including a constrained Leaky Capacitor algorithm, a branch-and-bound serial symbolic search algorithm, and a Hopfield net parallel relaxation search algorithm. These algorithms were compared with several collaborative filtering approaches that do not consider the transitive associations: a simple graph search approach, two variations of the user-based approach, and an item-based approach. Our experimental results indicate that spreading activation-based approaches significantly outperformed the other collaborative filtering methods as measured by recommendation precision, recall, the F-measure, and the rank score. We also observed the over-activation effect of the spreading activation approach, that is, incorporating transitive associations with past transactional data that is not sparse may "dilute" the data used to infer user preferences and lead to degradation in recommendation performance.},
+journal = {ACM Trans. Inf. Syst.},
+month = {jan},
+pages = {116-142},
+numpages = {27},
+keywords = {collaborative filtering, associative retrieval, sparsity problem, spreading activation, Recommender system}
 }
 
-@inproceedings{recommendation2019,
-	doi = {10.1145/3292500.3330989},
-  
-	url = {https://doi.org/10.1145%2F3292500.3330989},
-  
-	year = 2019,
-	month = {jul},
-  
-	publisher = {{ACM}
-},
-  
-	author = {Xiang Wang and Xiangnan He and Yixin Cao and Meng Liu and Tat-Seng Chua},
-  
-	title = {{KGAT}},
-  
-	booktitle = {Proceedings of the 25th {ACM} {SIGKDD} International Conference on Knowledge Discovery {\&}amp$\mathsemicolon$ Data Mining}
+@INPROCEEDINGS{recommendation-2021,
+author={Khatter, Harsh and Goel, Nishtha and Gupta, Naina and Gulati, Muskan},
+booktitle={2021 Third International Conference on Inventive Research in Computing Applications (ICIRCA)}, 
+title={Movie Recommendation System using Cosine Similarity with Sentiment Analysis}, 
+year={2021},
+volume={},
+number={},
+pages={597-603},
+doi={10.1109/ICIRCA51532.2021.9544794}
 }
-
-@inproceedings{recommendationSignal2021,
-	doi = {10.1145/3404835.3462862},
-  
-	url = {https://doi.org/10.1145%2F3404835.3462862},
-  
-	year = 2021,
-	month = {jul},
-  
-	publisher = {{ACM}
-},
-  
-	author = {Jiancan Wu and Xiang Wang and Fuli Feng and Xiangnan He and Liang Chen and Jianxun Lian and Xing Xie},
-  
-	title = {Self-supervised Graph Learning for Recommendation},
-  
-	booktitle = {Proceedings of the 44th International {ACM} {SIGIR} Conference on Research and Development in Information Retrieval}
-}
-
-@inproceedings{transe2013,
- author = {Bordes, Antoine and Usunier, Nicolas and Garcia-Duran, Alberto and Weston, Jason and Yakhnenko, Oksana},
- booktitle = {Advances in Neural Information Processing Systems},
- editor = {C.J. Burges and L. Bottou and M. Welling and Z. Ghahramani and K.Q. Weinberger},
- pages = {},
- publisher = {Curran Associates, Inc.},
- title = {Translating Embeddings for Modeling Multi-relational Data},
- url = {https://proceedings.neurips.cc/paper_files/paper/2013/file/1cecc7a77928ca8133fa24680a88d2f9-Paper.pdf},
- volume = {26},
- year = {2013}
-}
-
-@article{transh2014, title={Knowledge Graph Embedding by Translating on Hyperplanes}, volume={28}, url={https://ojs.aaai.org/index.php/AAAI/article/view/8870}, DOI={10.1609/aaai.v28i1.8870}, abstractNote={ &lt;p&gt; We deal with embedding a large scale knowledge graph composed of entities and relations into a continuous vector space. TransE is a promising method proposed recently, which is very efficient while achieving state-of-the-art predictive performance. We discuss some mapping properties of relations which should be considered in embedding, such as reflexive, one-to-many, many-to-one, and many-to-many. We note that TransE does not do well in dealing with these properties. Some complex models are capable of preserving these mapping properties but sacrifice efficiency in the process. To make a good trade-off between model capacity and efficiency, in this paper we propose TransH which models a relation as a hyperplane together with a translation operation on it. In this way, we can well preserve the above mapping properties of relations with almost the same model complexity of TransE. Additionally, as a practical knowledge graph is often far from completed, how to construct negative examples to reduce false negative labels in training is very important. Utilizing the one-to-many/many-to-one mapping property of a relation, we propose a simple trick to reduce the possibility of false negative labeling. We conduct extensive experiments on link prediction, triplet classification and fact extraction on benchmark datasets like WordNet and Freebase. Experiments show TransH delivers significant improvements over TransE on predictive accuracy with comparable capability to scale up. &lt;/p&gt; }, number={1}, journal={Proceedings of the AAAI Conference on Artificial Intelligence}, author={Wang, Zhen and Zhang, Jianwen and Feng, Jianlin and Chen, Zheng}, year={2014}, month={Jun.} }
-
-@article{transr2015, title={Learning Entity and Relation Embeddings for Knowledge Graph Completion}, volume={29}, url={https://ojs.aaai.org/index.php/AAAI/article/view/9491}, DOI={10.1609/aaai.v29i1.9491}, abstractNote={ &lt;p&gt; Knowledge graph completion aims to perform link prediction between entities. In this paper, we consider the approach of knowledge graph embeddings. Recently, models such as TransE and TransH build entity and relation embeddings by regarding a relation as translation from head entity to tail entity. We note that these models simply put both entities and relations within the same semantic space. In fact, an entity may have multiple aspects and various relations may focus on different aspects of entities, which makes a common space insufficient for modeling. In this paper, we propose TransR to build entity and relation embeddings in separate entity space and relation spaces. Afterwards, we learn embeddings by first projecting entities from entity space to corresponding relation space and then building translations between projected entities. In experiments, we evaluate our models on three tasks including link prediction, triple classification and relational fact extraction. Experimental results show significant and consistent improvements compared to state-of-the-art baselines including TransE and TransH. &lt;/p&gt; }, number={1}, journal={Proceedings of the AAAI Conference on Artificial Intelligence}, author={Lin, Yankai and Liu, Zhiyuan and Sun, Maosong and Liu, Yang and Zhu, Xuan}, year={2015}, month={Feb.} }

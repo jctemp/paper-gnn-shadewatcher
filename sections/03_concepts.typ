@@ -1,16 +1,35 @@
 #show math.equation: set text(size: 8.5pt)
+#set math.equation(numbering: "(1)")
 
 = Concepts <sec-concepts>
 
+In this section, we will discuss the various concepts that enable `ShadeWatcher` to predict malicious and benign behaviour of system entities.
+We will cover the following topics: graph theory, recommender systems, provenance graphs, context awareness, knowledge graphs, translational embeddings, and graph neural networks.
 
 == Graph theory <sec-graph-theory>
+
+In mathematics, a graph (@eq-graph) is defined as a tuple consisting of nodes ($cal(V)$) and edges ($cal(E)$), which together describe the structure of the graph. 
+Each edge tuple connects two nodes that are part of the set of nodes.
+The connection can be uni- or bidirectional as directed (set) or undirected (tuple).
 
 $
 cal(G) &= (cal(V), cal(E)) \
 cal(E) &= {(h, t) : h,t in cal(V)}
 $ <eq-graph>
 
+Graphs have the necessary properties to work with complex data.
+They allow for various topological structures while capturing information in an arbitrary form.
+Hence, one has the opportunity to model complex relationships across different data domains, and it is natural to visualise, explore, interact and search in #cite("knowledge-graphs-2022", "knowledge-graph-science-2018").
+Additionally, graphs can handle incomplete and degenerated data, which is essential as data can occur sparsely, resulting in many empty fields regarding classic table-like structures @sparsity-problem-2004.
+Further, one can incorporate additional information by assigning attributes to nodes and edges.
+
+ShadeWatcher @shadewatcher-2022 utilises the graph structure extensively across all upcoming sections.
+It leverages the fact that it can encode structured information efficiently and exploits it to gain valuable information about the data.
+
+
 == Recommender systems <sec-recommender-systems>
+
+// (formal definiton, structure, properties, related use case)
 
 $
 cal(G) &= (cal(V), cal(E)) \
@@ -25,7 +44,7 @@ cal(G)_P &= (cal(V), cal(E)) \
 cal(V) &= {italic("process, file, socket, ...")} \
 cal(E) &= {(h, r_"ht" , t) : h, t in cal(V) : r_"ht" in cal(R)} \
 cal(R) &= {italic("clone, read, write, ...")}
-$ <eq-graph-_provenance>
+$ <eq-graph-provenance>
 
 == Context awareness <sec-context-awareness>
 
