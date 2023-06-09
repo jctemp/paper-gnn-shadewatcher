@@ -2,7 +2,7 @@
 
 == Motivation <sec-motivation>
 
-Historic techiques (statistical, rule-based, etc.) are not efficient for large data
+Historic techniques (statistical, rule-based, etc.) are not efficient for large data
 
 #lorem(20)
 
@@ -22,13 +22,13 @@ Section with their content
 // J. Zengy, X. Wang, et al. @shadewatcher2022
 // #lorem(300)
 
-// efficient analysis needed for large data
-// @recommendation2019 GNN enable linear time complexity
+//Efficient analysis needed for extensive data
+// @recommendation2019 GNN enables linear time complexity
 
-// Motivate machine learing for audit evaluation
+// Motivate machine learning for audit evaluation
 // Present existing classic techniques
 // Introduce the idea of graph-based learning
-// teaser of provenance graph and define benign and malicicous detection as a recommendation problem
-// structure of the ...
+// teaser of provenance graph and define benign and malicious detection as a recommendation problem
 
-// introduce that there are other works tacking problem
+
+// introduce that other works are tacking the problem

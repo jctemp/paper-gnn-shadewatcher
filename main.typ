@@ -1,6 +1,7 @@
 #import "template.typ": *
 
 #show: ieee.with(
+  paper-size: "a4",
   title: "ShadeWatcher",
   abstract: [
     #lorem(80)
