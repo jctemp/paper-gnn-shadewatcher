@@ -12,6 +12,15 @@ Problem definition
 
 #lorem(50)
 
+#show: columns.with(1, gutter: 12pt)
+#set columns(1)
+
+#figure(
+    image("../figures/shadewatcher-illustrations-arch-vertical.drawio.png", alt: "Constructed example to illustrate provenance."),
+    caption: [The figure displays a theoretical provenance graph (own illustration).]
+) <fig-sw-example>
+
+
 == Overview <sec-overview>
 
 Section with their content
