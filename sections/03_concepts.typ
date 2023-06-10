@@ -54,7 +54,7 @@ Accordingly, the following sections will reveal the connection between threat an
 
 // (formal definiton, structure, properties, related use case)
 System provenance is essential for computer forensics as it describes entities (process, files and sockets) in a computer system with metadata @trustworthy-provenance-2015.
-The metadata, also called audit logs, are gathered during the execution of a system and provide valuable insights into an entity's interaction history, allowing specialists to comprehend and reason about the system's current state.
+The metadata, also called audit data, is gathered during the execution of a system and provides valuable insights into an entity's interaction history, allowing specialists to comprehend and reason about the system's current state.
 Furthermore, one can derive a provenance graph (PG) commonly accepted as a directed acyclic graph @trustworthy-provenance-2015.
 Accordingly, we can define the PG (@eq-graph-provenance) as a set of system entities representing nodes ($h,t in cal(V)$) and a set of interactions between the entities representing edges ($cal(E)$).
 In addition, we add a label ($r_"ht" in cal(R)$) to the edges representing a relation type.
@@ -66,6 +66,42 @@ cal(E) &= {(h, r_"ht" , t) : h, t in cal(V) : r_"ht" in cal(R)} \
 cal(R) &= {italic("clone, fork, read, write, ...")}
 $ <eq-graph-provenance>
 
+We want to include an example (@fig-audit-data) of audit data in `JSON` format for completeness.
+The audit data has various information about the performed action.
+More specifically, a process with the PID `18113` successfully reads `105` bytes of a file with the file descriptor `98`.
+
+#figure(
+  align(left)[
+  ```json
+  {
+      "@timestamp": "2020-10-31T14:14:47.785Z",
+      "user": {
+          // ...
+      },
+      "process": {
+          "pid": "18113",
+          "ppid": "18112",
+          // ...
+      },
+      "auditd": {
+          "sequence": 166817,
+          "result": "success",
+          "session": "705",
+          "data": {
+              // ...
+              "syscall": "read",
+              // fd in hex => 98 in dec
+              "a0": "b",        
+              // amount of read bytes
+              "exit": "105",
+              // ...
+          }
+      }
+  }
+  ```],
+  caption: [The figure presents a single audit record of a Linux system @shadewatcher-source-2022.],
+) <fig-audit-data>
+
 Considering a secure collection process of the audit data, it is feasible to gather all system entities, having a complete representation of a system's history.
 The authors @trustworthy-provenance-2015 introduced this as whole-systems provenance showing the interaction of agents, processes and data types.
 Provenance collection is available on the three major operating systems (OS): Linux, MacOS and Windows @provenance-auditing-2012.
@@ -74,9 +110,6 @@ Regardless, this paper will focus on Linux-based systems as the ShadeWatcher aut
 
 ShadeWatcher utilises the PG as a foundation for the knowledge graph.
 Furthermore, the authors perform additional analysis on the PG to enrich the knowledge graph with crucial information about entity relations.
-
-// We want to build the intuition for provenance.
-// Therefore a simple example that illustrates the prower of PG quite well.
 
 To clarify the concept of PG, we will provide an illustrative example explained in @provenance-aware-2006. 
 We constructed a theoretical illustration (@fig-pg-example) based on the scenario described.
