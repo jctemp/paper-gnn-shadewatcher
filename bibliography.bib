@@ -105,3 +105,47 @@ keywords = {explainable recommendation, embedding-based model, tree-based model,
 location = {Lyon, France},
 series = {WWW '18}
 }
+
+@inproceedings{trustworthy-provenance-2015,
+author = {Bates, Adam and Tian, Dave and Butler, Kevin R. B. and Moyer, Thomas},
+title = {Trustworthy Whole-System Provenance for the Linux Kernel},
+year = {2015},
+isbn = {9781931971232},
+publisher = {USENIX Association},
+address = {USA},
+abstract = {In a provenance-aware system, mechanisms gather and report metadata that describes the history of each object being processed on the system, allowing users to understand how data objects came to exist in their present state. However, while past work has demonstrated the usefulness of provenance, less attention has been given to securing provenance-aware systems. Provenance itself is a ripe attack vector, and its authenticity and integrity must be guaranteed before it can be put to use.We present Linux Provenance Modules (LPM), the first general framework for the development of provenance-aware systems. We demonstrate that LPM creates a trusted provenance-aware execution environment, collecting complete whole-system provenance while imposing as little as 2.7% performance overhead on normal system operation. LPM introduces new mechanisms for secure provenance layering and authenticated communication between provenance-aware hosts, and also interoperates with existing mechanisms to provide strong security assurances. To demonstrate the potential uses of LPM, we design a Provenance-Based Data Loss Prevention (PB-DLP) system. We implement PBDLP as a file transfer application that blocks the transmission of files derived from sensitive ancestors while imposing just tens of milliseconds overhead. LPM is the first step towards widespread deployment of trustworthy provenance-aware applications.},
+booktitle = {Proceedings of the 24th USENIX Conference on Security Symposium},
+pages = {319–334},
+numpages = {16},
+location = {Washington, D.C.},
+series = {SEC'15}
+}
+
+@inproceedings{provenance-auditing-2012,
+author = {Gehani, Ashish and Tariq, Dawood},
+title = {SPADE: Support for Provenance Auditing in Distributed Environments},
+year = {2012},
+isbn = {9783642351693},
+publisher = {Springer-Verlag},
+address = {Berlin, Heidelberg},
+abstract = {SPADE is an open source software infrastructure for data provenance collection and management. The underlying data model used throughout the system is graph-based, consisting of vertices and directed edges that are modeled after the node and relationship types described in the Open Provenance Model. The system has been designed to decouple the collection, storage, and querying of provenance metadata. At its core is a novel provenance kernel that mediates between the producers and consumers of provenance information, and handles the persistent storage of records. It operates as a service, peering with remote instances to enable distributed provenance queries. The provenance kernel on each host handles the buffering, filtering, and multiplexing of incoming metadata from multiple sources, including the operating system, applications, and manual curation. Provenance elements can be located locally with queries that use wildcard, fuzzy, proximity, range, and Boolean operators. Ancestor and descendant queries are transparently propagated across hosts until a terminating expression is satisfied, while distributed path queries are accelerated with provenance sketches.},
+booktitle = {Proceedings of the 13th International Middleware Conference},
+pages = {101–120},
+numpages = {20},
+location = {ontreal, Quebec, Canada},
+series = {Middleware '12}
+}
+
+@inproceedings{provenance-aware-2006,
+author = {Muniswamy-Reddy, Kiran-Kumar and Holland, David A. and Braun, Uri and Seltzer, Margo},
+title = {Provenance-Aware Storage Systems},
+year = {2006},
+publisher = {USENIX Association},
+address = {USA},
+abstract = {A Provenance-Aware Storage System (PASS) is a storage system that automatically collects and maintains provenance or lineage, the complete history or ancestry of an item. We discuss the advantages of treating provenance as meta-data collected and maintained by the storage system, rather than as manual annotations stored in a separately administered database. We describe a PASS implementation, discussing the challenges it presents, performance cost it incurs, and the new functionality it enables. We show that with reasonable overhead, we can provide useful functionality not available in today's file systems or provenance management systems.},
+booktitle = {Proceedings of the Annual Conference on USENIX '06 Annual Technical Conference},
+pages = {4},
+numpages = {1},
+location = {Boston, MA},
+series = {ATEC '06}
+}

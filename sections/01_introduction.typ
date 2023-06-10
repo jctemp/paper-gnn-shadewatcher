@@ -4,7 +4,7 @@
 
 Historic techniques (statistical, rule-based, etc.) are not efficient for large data
 
-#lorem(20)
+#lorem(50)
 
 == ShadeWatcher <sec-shadewatcher>
 
@@ -16,7 +16,7 @@ Problem definition
 
 Section with their content
 
-#lorem(20)
+#lorem(50)
 
 
 // J. Zengy, X. Wang, et al. @shadewatcher2022

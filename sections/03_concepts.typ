@@ -53,13 +53,44 @@ Accordingly, the following sections will reveal the connection between threat an
 == Provenance graph <sec-provenance-graph>
 
 // (formal definiton, structure, properties, related use case)
+System provenance is essential for computer forensics as it describes entities (process, files and sockets) in a computer system with metadata @trustworthy-provenance-2015.
+The metadata, also called audit logs, are gathered during the execution of a system and provide valuable insights into an entity's interaction history, allowing specialists to comprehend and reason about the system's current state.
+Furthermore, one can derive a provenance graph (PG) commonly accepted as a directed acyclic graph @trustworthy-provenance-2015.
+Accordingly, we can define the PG (@eq-graph-provenance) as a set of system entities representing nodes ($h,t in cal(V)$) and a set of interactions between the entities representing edges ($cal(E)$).
+In addition, we add a label ($r_"ht" in cal(R)$) to the edges representing a relation type.
 
 $
 cal(G)_P &= (cal(V), cal(E)) \
-cal(V) &= {italic("process, file, socket, ...")} \
+cal(V) &= {italic("process, file, socket")} \
 cal(E) &= {(h, r_"ht" , t) : h, t in cal(V) : r_"ht" in cal(R)} \
-cal(R) &= {italic("clone, read, write, ...")}
+cal(R) &= {italic("clone, fork, read, write, ...")}
 $ <eq-graph-provenance>
+
+Considering a secure collection process of the audit data, it is feasible to gather all system entities, having a complete representation of a system's history.
+The authors @trustworthy-provenance-2015 introduced this as whole-systems provenance showing the interaction of agents, processes and data types.
+Provenance collection is available on the three major operating systems (OS): Linux, MacOS and Windows @provenance-auditing-2012.
+Note that it is feasible on other OS derivatives; however, we cannot provide any reference.
+Regardless, this paper will focus on Linux-based systems as the ShadeWatcher authors only considered Linux because it supports capturing provenance on a system-call level.
+
+ShadeWatcher utilises the PG as a foundation for the knowledge graph.
+Furthermore, the authors perform additional analysis on the PG to enrich the knowledge graph with crucial information about entity relations.
+
+// We want to build the intuition for provenance.
+// Therefore a simple example that illustrates the prower of PG quite well.
+
+To clarify the concept of PG, we will provide an illustrative example explained in @provenance-aware-2006. 
+We constructed a theoretical illustration (@fig-pg-example) based on the scenario described.
+
+#figure(
+    image("../figures/provenance-example.drawio.png", alt: "Constructed example to illustrate provenance."),
+    caption: [The figure displays a theoretical provenance graph (own illustration).]
+) <fig-pg-example>
+
+Imagine a user with an alias for the `rm` command that moves deleted files to a folder containing the deleted files.
+An attacker successfully infiltrated the user's system and replaced this specific folder with a symbolic link to a location accessible to the attacker.
+Accordingly, deleting a sensitive file would move it to a location where the attacker can perform further disguising actions.
+
+By utilising provenance data, one can systematically analyse the changed state in the system and recognise that sensitive information is moved to an odd location (e.g. sockets) which is suspicious and an indicator of malicious behaviour.
 
 == Context awareness <sec-context-awareness>
 
@@ -70,6 +101,11 @@ cal(V) &= cal(D) union cal(S)  : cal(D) sect cal(S) = nothing \
 cal(D) &= {italic("file, socket, ...")} \
 cal(S) &= {italic("process, ...")} \
 $ <eq-graph-context>
+
+#figure(
+    image("../figures/provenance-context.drawio.png", alt: "Constructed example to illustrate provenance."),
+    caption: [The figure displays a theoretical provenance graph (own illustration).]
+) <fig-pg-context>
 
 == Knowledge graph <sec-knowledge-graph>
 
