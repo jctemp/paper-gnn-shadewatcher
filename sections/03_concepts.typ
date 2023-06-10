@@ -31,7 +31,7 @@ Further, one can incorporate additional information by assigning attributes to n
 
 // paragraph
 
-ShadeWatcher @shadewatcher-2022 utilises the graph structure extensively across all upcoming sections.
+`ShadeWatcher` @shadewatcher-2022 utilises the graph structure extensively across all upcoming sections.
 It leverages the fact that it can encode structured information efficiently and exploits it to gain valuable information about the data.
 
 
@@ -63,7 +63,7 @@ Further, one aims to improve recommendations by accommodating more information, 
 
 // paragraph
 
-The ShadeWatcher authors adopted the recommendation approach for threat detection and effectively applied the concept described in @kgat-2019.
+The `ShadeWatcher` authors adopted the recommendation approach for threat detection and effectively applied the concept described in @kgat-2019.
 Accordingly, the following sections will reveal the connection between threat analysis and recommendation.
 
 == Provenance graph <sec-provenance-graph>
@@ -128,11 +128,11 @@ Considering a secure collection process of the audit data, it is feasible to gat
 The authors @trustworthy-provenance-2015 introduced this as whole-systems provenance showing the interaction of agents, processes and data types.
 Provenance collection is available on the three major operating systems (OS): Linux, MacOS and Windows @provenance-auditing-2012.
 Note that it is feasible on other OS derivatives; however, we cannot provide any reference.
-Regardless, this paper will focus on Linux-based systems as the ShadeWatcher authors only considered Linux because it supports capturing provenance on a system-call level.
+Regardless, this paper will focus on Linux-based systems as the `ShadeWatcher` authors only considered Linux because it supports capturing provenance on a system-call level.
 
 // paragraph
 
-ShadeWatcher utilises the PG as a foundation for the knowledge graph.
+`ShadeWatcher` utilises the PG as a foundation for the knowledge graph.
 Furthermore, the authors perform additional analysis on the PG to enrich the knowledge graph with crucial information about entity relations.
 
 // paragraph
@@ -158,26 +158,59 @@ By utilising provenance data, one can systematically analyse the changed state i
 == Entity context graph <sec-entity-context-graph>
 
 // (formal definiton, structure, properties, related use case)
-- 
+In a previous @sec-recommender-systems, we discussed how side information is essential for recommendation @kgat-2019.
+In the case of threat analysis, side information allows one to form high-order connections #cite("shadewatcher-2022", "watson-2021") in the PG.
+High-order connections mean that two system entities are indirectly connected via multiple hops (a hop means traversing an edge in a graph).
+Consequentially, it supplies additional semantics regarding the system entity's context @shadewatcher-2022.
+
+The problem is that the PG does not directly encode the side information @shadewatcher-2022.
+Therefore, `ShadeWatcher` uses the system entity's context to derive side information.
+A context captures a collection of system entities and interactions representing system behaviour @watson-2021.
+One can extract the context from the PG by building multiple subgraphs encoding the side information.
+
+The `ShadeWatcher` authors proposed applying depth-first search (DFS) to discover relevant subgraphs.
+However, to make DFS usable for this task, one requires further constraints for the method @watson-2021.
+
+First, one must enforce the time monotony of the events.
+With that, the authors @watson-2021 mitigate cyclic dependencies that could happen because some events can connect to others that are in the past relative to the current event.
+Nonetheless, such connections have the potential to deliver crucial information.
+Therefore, one allows a single hop to consider past events.
+Secondly, handling entities of a high degree is necessary because these can lead to a dependency explosion.
+Accordingly, the authors suggested filtering these events through statistical analysis and expert knowledge.
+
+With that, one can start the further semantic analysis and the discovery of subgraphs.
+`ShadeWatcher` uses methods to determine the subgraphs for root entity objects (entities at which the method starts the discovery).
+The authors limited the root entities by partitioning the entity set ($cal(V)$) into two disjoint subsets.
+One has data entities ($cal(D)$), files and sockets.
+All other entities belong to the subset of system entities ($cal(S)$).
+The final step is to take all descending entities in the graph and create the root-children interactions.
+These connections will be labelled with an _interact_ relation type.
+
+Finally, we can define the entity context graph (@eq-graph-context), modelling semantic system entity interactions.
+Note that the `ShadeWatcher` author called this graph a bipartite; however, we changed the name to avoid confusion with the mathematical definition of a bipartite graph.
+The authors intended to assemble a similar structure to a bipartite graph because it preserves the collaborative filtering signal @gnn-recommendation-2020 (the concept of user-item interactions).
+We say a similar structure because we still have the partitioning of entities; however, we do not constrain the interactions within the disjoint subsets.
+
 
 $
 cal(G)_C &= (cal(V), cal(E)) \
-cal(E) &= {(h, r_"ht" , t) : h,t in cal(V) : r_"ht" in {0,1}} \
+cal(E) &= {(h, r_"ht" , t) : h,t in cal(V) : r_"ht" in {italic("interact")}} \
 cal(V) &= cal(D) union cal(S)  : cal(D) sect cal(S) = nothing \
 cal(D) &= {italic("file, socket, ...")} \
 cal(S) &= {italic("process, ...")} \
 $ <eq-graph-context>
-
-#figure(
-    image("../figures/shadewatcher-illustrations-pg-context.drawio.png", alt: "Constructed example to illustrate provenance."),
-    caption: [The figure displays a theoretical provenance graph (own illustration).]
-) <fig-pg-context>
 
 == Knowledge graph <sec-knowledge-graph>
 
 $
 cal(G)_K &= cal(G)_P union cal(G)_C
 $ <eq-graph-knowledge>
+
+#figure(
+    image("../figures/shadewatcher-illustrations-pg-context-single.drawio.png", alt: "Constructed example to illustrate provenance."),
+    caption: [The figure displays the knowledge graph.]
+) <fig-kg>
+
 
 == Translational embeddings <sec-translational-embeddings>
 

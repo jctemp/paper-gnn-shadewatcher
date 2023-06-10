@@ -151,11 +151,69 @@ series = {ATEC '06}
 }
 
 @misc{shadewatcher-source-2022,
-  author = {Zengy, Jun and Wang, Xiang and Liu, Jiahao and Chen, Yinfang and Liang, Zhenkai and Chua, Tat-Seng and Chua, Zheng Leong},
-  title = {ShadeWatcher},
-  year = {2013},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {https://github.com/jun-zeng/ShadeWatcher},
-  commit = {0031dfbb354b7cdfdbe9cbc52371f78c9ab83bd4}
+author = {Zengy, Jun and Wang, Xiang and Liu, Jiahao and Chen, Yinfang and Liang, Zhenkai and Chua, Tat-Seng and Chua, Zheng Leong},
+title = {ShadeWatcher},
+year = {2013},
+publisher = {GitHub},
+journal = {GitHub repository},
+howpublished = {https://github.com/jun-zeng/ShadeWatcher},
+commit = {0031dfbb354b7cdfdbe9cbc52371f78c9ab83bd4}
+}
+
+@inproceedings{watson-2021,
+title={WATSON: Abstracting Behaviors from Audit Logs via Aggregation of Contextual Semantics.},
+author={Zeng, Jun and Chua, Zheng Leong and Chen, Yinfang and Ji, Kaihang and Liang, Zhenkai and Mao, Jian},
+booktitle={NDSS},
+year={2021}
+}
+
+@article{gnn-recommendation-2020,
+author = {Jiancan Wu and Xiang Wang and Fuli Feng and Xiangnan He and Liang Chen and Jianxun Lian and Xing Xie},
+title = {Self-supervised Graph Learning for Recommendation},
+journal = {CoRR},
+volume = {abs/2010.10783},
+year = {2020},
+url = {https://arxiv.org/abs/2010.10783},
+eprinttype = {arXiv},
+eprint = {2010.10783},
+timestamp = {Thu, 19 Nov 2020 08:52:31 +0100},
+biburl = {https://dblp.org/rec/journals/corr/abs-2010-10783.bib},
+bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{transe-2013,
+author = {Bordes, Antoine and Usunier, Nicolas and Garcia-Duran, Alberto and Weston, Jason and Yakhnenko, Oksana},
+booktitle = {Advances in Neural Information Processing Systems},
+editor = {C.J. Burges and L. Bottou and M. Welling and Z. Ghahramani and K.Q. Weinberger},
+pages = {},
+publisher = {Curran Associates, Inc.},
+title = {Translating Embeddings for Modeling Multi-relational Data},
+url = {https://proceedings.neurips.cc/paper_files/paper/2013/file/1cecc7a77928ca8133fa24680a88d2f9-Paper.pdf},
+volume = {26},
+year = {2013}
+}
+
+@article{transh-2014, 
+title={Knowledge Graph Embedding by Translating on Hyperplanes},
+volume={28},
+url={https://ojs.aaai.org/index.php/AAAI/article/view/8870},
+DOI={10.1609/aaai.v28i1.8870},
+abstractNote={ &lt;p&gt; We deal with embedding a large scale knowledge graph composed of entities and relations into a continuous vector space. TransE is a promising method proposed recently, which is very efficient while achieving state-of-the-art predictive performance. We discuss some mapping properties of relations which should be considered in embedding, such as reflexive, one-to-many, many-to-one, and many-to-many. We note that TransE does not do well in dealing with these properties. Some complex models are capable of preserving these mapping properties but sacrifice efficiency in the process. To make a good trade-off between model capacity and efficiency, in this paper we propose TransH which models a relation as a hyperplane together with a translation operation on it. In this way, we can well preserve the above mapping properties of relations with almost the same model complexity of TransE. Additionally, as a practical knowledge graph is often far from completed, how to construct negative examples to reduce false negative labels in training is very important. Utilizing the one-to-many/many-to-one mapping property of a relation, we propose a simple trick to reduce the possibility of false negative labeling.We conduct extensive experiments on link prediction, triplet classification and fact extraction on benchmark datasets like WordNet and Freebase. Experiments show TransH delivers significant improvements over TransE on predictive accuracy with comparable capability to scale up. &lt;/p&gt; },
+number={1},
+journal={Proceedings of the AAAI Conference on Artificial Intelligence},
+author={Wang, Zhen and Zhang, Jianwen and Feng, Jianlin and Chen, Zheng},
+year={2014},
+month={Jun.}
+}
+
+@article{transr-2015,
+title={Learning Entity and Relation Embeddings for Knowledge Graph Completion},
+volume={29}, url={https://ojs.aaai.org/index.php/AAAI/article/view/9491},
+DOI={10.1609/aaai.v29i1.9491},
+abstractNote={ &lt;p&gt; Knowledge graph completion aims to perform link prediction between entities. In this paper, we consider the approach of knowledge graph embeddings. Recently, models such as TransE and TransH build entity and relation embeddings by regarding a relation as translation from head entity to tail entity. We note that these models simply put both entities and relations within the same semantic space. In fact, an entity may have multiple aspects and various relations may focus on different aspects of entities, which makes a common space insufficient for modeling. In this paper, we propose TransR to build entity and relation embeddings in separate entity space and relation spaces. Afterwards, we learn embeddings by first projecting entities from entity space to corresponding relation space and then building translations between projected entities. In experiments, we evaluate our models on three tasks including link prediction, triple classification and relational fact extraction. Experimental results show significant and consistent improvements compared to state-of-the-art baselines including TransE and TransH. &lt;/p&gt; },
+number={1},
+journal={Proceedings of the AAAI Conference on Artificial Intelligence},
+author={Lin, Yankai and Liu, Zhiyuan and Sun, Maosong and Liu, Yang and Zhu, Xuan},
+year={2015},
+month={Feb.}
 }
