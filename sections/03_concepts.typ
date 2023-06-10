@@ -186,11 +186,11 @@ All other entities belong to the subset of system entities ($cal(S)$).
 The final step is to take all descending entities in the graph and create the root-children interactions.
 These connections will be labelled with an _interact_ relation type.
 
-Finally, we can define the entity context graph (@eq-graph-context), modelling semantic system entity interactions.
+Finally, we can define the entity context graph (CG), modelling semantic system entity interactions.
+The corresponding @eq-graph-context expresses the configuration.
 Note that the `ShadeWatcher` author called this graph a bipartite; however, we changed the name to avoid confusion with the mathematical definition of a bipartite graph.
 The authors intended to assemble a similar structure to a bipartite graph because it preserves the collaborative filtering signal @gnn-recommendation-2020 (the concept of user-item interactions).
-We say a similar structure because we still have the partitioning of entities; however, we do not constrain the interactions within the disjoint subsets.
-
+A similar structure means partitioning entities; however, we do not constrain the interactions within the disjoint subsets.
 
 $
 cal(G)_C &= (cal(V), cal(E)) \
@@ -202,13 +202,20 @@ $ <eq-graph-context>
 
 == Knowledge graph <sec-knowledge-graph>
 
+`ShadeWatcher` uses machine learning (ML) methods that work on a knowledge graph (KG) as input.
+The KG represents data and dependencies with context-specific entities and their interactions @knowledge-graphs-2022.
+To achieve this, the authors of `ShadeWatcher` combined the PG with the CG, which was possible due to their similar structure (see @eq-graph-provenance and @eq-graph-context).
+The PG provides the system's topological structure, while the CG provides system behaviour @watson-2021.
 $
 cal(G)_K &= cal(G)_P union cal(G)_C
 $ <eq-graph-knowledge>
 
+We have provided a visual representation of a KG (@fig-kg) for completeness.
+It shows a data exfiltration scenario where a user tried to mislead a threat detection system by disguising the copy of a sensitive file @watson-2021.
+
 #figure(
     image("../figures/shadewatcher-illustrations-pg-context-single.drawio.png", alt: "Constructed example to illustrate provenance."),
-    caption: [The figure displays the knowledge graph.]
+    caption: [The figure displays a simple knowledge graph (Modified @watson-2021).]
 ) <fig-kg>
 
 
