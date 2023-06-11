@@ -1,7 +1,8 @@
 #set math.equation(numbering: "(1)")
-#show math.equation: set text(size: 8.5pt)
+#show math.equation.where(block: true): set text(size: 9pt)
+#show math.equation.where(block: false): set text(size: .9em)
 #show math.equation.where(block: true): it => {
-    pad(y: .6em, it)
+    pad(y: .2em, it)
 }
 
 = Concepts <sec-concepts>
@@ -302,63 +303,101 @@ In the loss function, $sigma$ denotes a non-linear transformation.
 
 == Graph neural network <sec-graph-neural-networks>
 
-#lorem(25)
+As previously discussed, when it comes to system entities, their context can be used as additional information represented by high-order connections via a multi-hop path. 
+A graph neural network (GNN) #cite("shadewatcher-2022", "kgat-2019", "graph-convolutional-network-2016") aims to provide higher-level information.
+With message passing, entities update their representations by accumulating recursively propagated neighbour information.
+Hence, the GNN consists of $L$ layers.
+
+With these layers (@eq-gnn-layer-activations), the GNN can update the representation $bold(z)_h^((l))$ for a given entity $h$. 
+For each layer, the algorithm updates the representation of an entity $h$ using its previous value and the neighbour $cal(N)_h$. 
+The initialisation of $bold(z)_h^((0))$ is done using the embedding $e_h^r$ provided by `TransR`.
 
 $
 bold(z)_h^((l)) = g(bold(z)_h^((l-1)), bold(z)_(cal(N)_h)^((l-1)))
 $ <eq-gnn-layer-activations>
 
-#lorem(50)
+The neighbourhood representation is the sum of neighbour values in layer $l-1$ (@eq-gnn-neighbourhood).
+The `ShadeWatcher` authors highlight that not all neighbourhood entities are relevant.
+Therefore, they incorporated an attention mechanism @gat-2018.
+Hence, each neighbour has an attention coefficient $alpha$ assigned to show its importance in the neighbourhood.
+Note that a triplet $(h, r, t)$ must include in KG. 
 
 $
 bold(z)_(cal(N)_h)^((l-1)) = sum_(t in cal(N)_h) alpha(h,r,t)bold(z)^((l-1))_t : (h,r,t) in cal(G)_K
 $ <eq-gnn-neighbourhood>
 
-#lorem(50)
+`ShadeWatcher` uses a customised function to calculate the attention coefficient #cite("shadewatcher-2022","gat-2018").
+The `ShadeWatcher` paper @shadewatcher-2022 does not detail the decision-making process, but we can still make some inferences about the design.
+Determining the energy value, denoted as $e(h,r,t)$, involves utilising the `TransR` embeddings.
+By using the dot product, a scalar is obtained that indicates similarity.
+Recall that two entities, $h$ and $t$, with a well-learned relation, will result in a similar direction in relation space ($bold(e)_t^r^top approx bold(e)_h^r + bold(e)_r$).
+Furthermore, the `TransR` embeddings encoding semantic and behaviour information #cite("shadewatcher-2022", "watson-2021").
+For entities that are not related, the scalar will be negative.
+The $tanh$ function is applied to increase the expressiveness @gat-2018.
+The `ShadeWatcher` authors applied a softmax over the neighbourhood to acquire a normalised coefficient.
 
 $
-e(h,r,t) &= bold(e)_t^r^top tanh(bold(e)_h^r + bold(e)_r)\
-alpha(h,r,t) &= "softmax"(e(h,r,t)) = (exp(e(h,r,t)))/(sum_(t_h in cal(N)_h) exp(e(h,r,t_h)))
+e(h,r,t) &= bold(e)_t^r^top * tanh(bold(e)_h^r + bold(e)_r)\
+alpha(h,r,t) &= "softmax"(e(h,r,t)) \
+             &= (exp(e(h,r,t)))/(sum_(t_h in cal(N)_h) exp(e(h,r,t_h)))
 $ <eq-gnn-attention>
 
-#lorem(50)
+The aggregation function (@eq-gnn-aggregation) follows the specific criteria (symmetric and trainable) @graph-sage-2017. 
+Furthermore, the authors of `ShadeWatcher` have adopted an individual solution @kgat-2019. 
+In terms of each layer, there is a shared learnable weight represented by $bold(W)^((l))$, which linearly transforms the concatenated values of the current node $h$ and $cal(N)_h$. 
+It is worth mentioning that the symbol $dot || dot$ denotes the used concatenation operator. 
+Additionally, for enhanced expressiveness, the value undergoes a non-linear transformation using a leakyReLU function.
 
 $
 g(bold(z)_h^((l-1)), bold(z)_(cal(N)_h)^((l-1))) = "leakyReLU"((bold(z)_h^((l-1)) || bold(z)_(cal(N)_h)^((l-1)))bold(W)^((l)))
 $ <eq-gnn-aggregation>
 
-#lorem(50)
+After the GNN, `ShadeWatcher` has $L$ entity representation.
+Each layer contributes to a final representation denoted as $z_h^*$ because it encodes different-order information within the KG. 
+One concatenates the values of each layer to provide $z_h^*$ (@eq-gnn-embedding), effectively preserving the information from each layer.
+Recollect that $bold(z)_h^((0))$ is an embedding that is produced by `TransR`.
 
 $
 z_h^* = bold(z)_h^((0)) || ... || bold(z)_h^((L)) : {bold(z)_h^((0)),...,bold(z)_h^((L))}
 $ <eq-gnn-embedding>
 
-#lorem(50)
+For recommender systems, one possible measure is the cosine similarity.
+`ShadeWatcher` utilises cosine similarity without normalising the entity embeddings (@eq-gnn-cosine-similarity). 
+It is essential to note whether the embeddings are normalised; the resulting value will be positive if the two embeddings have the same direction, otherwise negative.
 
 $
 hat(y)_"ht" = bold(z)_h^*^top * bold(z)_t^*
 $ <eq-gnn-cosine-similarity>
 
-#lorem(50)
+For a given prediction $hat(y)_"ht"$, one can label it based on a pre-defined threshold @shadewatcher-2022.
+The optimisation goal is to recommend entities with which a current entity $h$ will not interact.
+Thus, unseen interactions oppose a threat which should lead to high dissimilarity in the embeddings.
+Applying the Bayesian personalised ranking (BPR) optimisation @bpr-2012 for the GNN's loss function (@eq-gnn-loss), the model learns differences in interaction probabilities, thus providing for every entity a personalised ranking.
+Regarding BPR, `ShadeWatcher` replaces the logistic sigmoid function with a softplus function @shadewatcher-source-2022.
 
 $
 cal(L)_"higher" = sum_((h,r_0,t) in cal(G)_K) sum_((h',r_0,t') in.not cal(G)_K) sigma(hat(y)_"ht" - hat(y)_"h't'")
 $ <eq-gnn-loss>
 
-#lorem(50)
+To complete the process, we need to specify the overall objective.
+Accordingly, we can identify the parameters that can be trained.
+
+== Training
+
+For the overall objective (@eq-shadewatcher-loss), `ShadeWatcher` combines the loss functions of `TransR` and GNN.
+An L2-regularisation term with a hyperparameter $lambda$ is incorporated to combat overfitting.
+Furthermore, it is possible to train all embeddings together @shadewatcher-source-2022.
+Alternatively, `ShadeWatcher` can load pre-trained embedding.
 
 $
 cal(L) = cal(L)_"first" + cal(L)_"higher" + lambda || theta ||
 $ <eq-shadewatcher-loss>
 
-#lorem(50)
+Finally, we can give an overview of the trainable parameters (@eq-shadewatcher-params).
+We can see that `ShadeWatcher` learns the first-order entity embeddings using `TransR` with the various projection matrices for each relation type.
+More, the GNN allows the learning of the shared layer weights.
+Note that the attention parameters are indirectly trained through `TransR`.
 
 $
 theta = {bold(e)_h, bold(e)_r, bold(e)_t, bold(W)_r, bold(W)^((l)) : h,t in cal(V), r in cal(E), l in {1,...,L}}
 $ <eq-shadewatcher-params>
-
-#lorem(50)
-
-$
-italic("similarity") = bold(a) dot bold(b) = cos(theta) dot || bold(a) ||_2 dot || bold(b) ||_2
-$ <eq_cosine_similarity>
