@@ -309,7 +309,7 @@ With message passing, entities update their representations by accumulating recu
 Hence, the GNN consists of $L$ layers.
 
 With these layers (@eq-gnn-layer-activations), the GNN can update the representation $bold(z)_h^((l))$ for a given entity $h$. 
-For each layer, the algorithm updates the representation of an entity $h$ using its previous value and the neighbour $cal(N)_h$. 
+For each layer, the algorithm updates the representation of an entity $h$ using its previous value and the neighbourhood $cal(N)_h$. 
 The initialisation of $bold(z)_h^((0))$ is done using the embedding $e_h^r$ provided by `TransR`.
 
 $

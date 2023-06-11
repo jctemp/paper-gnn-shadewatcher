@@ -6,7 +6,7 @@ Historic techniques (statistical, rule-based, etc.) are not efficient for large 
 
 #lorem(50)
 
-== ShadeWatcher <sec-shadewatcher>
+== Approach <sec-approach>
 
 Problem definition
 
