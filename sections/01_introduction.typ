@@ -10,7 +10,7 @@ Historic techniques (statistical, rule-based, etc.) are not efficient for large 
 
 Problem definition
 
-#lorem(50)
+#lorem(100)
 
 #show: columns.with(1, gutter: 12pt)
 #set columns(1)

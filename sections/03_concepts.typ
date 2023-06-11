@@ -1,5 +1,8 @@
-#show math.equation: set text(size: 8.5pt)
 #set math.equation(numbering: "(1)")
+#show math.equation: set text(size: 8.5pt)
+#show math.equation.where(block: true): it => {
+    pad(y: .6em, it)
+}
 
 = Concepts <sec-concepts>
 
@@ -141,7 +144,7 @@ To clarify the concept of PG, we will provide an illustrative example explained 
 We constructed a theoretical illustration (@fig-pg-example) based on the scenario described.
 
 #figure(
-    image("../figures/shadewatcher-illustrations-pg-example.drawio.png", alt: "Constructed example to illustrate provenance.", width: 80%),
+    image("../figures/shadewatcher-illustrations-pg-example.drawio.png", alt: "The figure displays a theoretical provenance graph.", width: 80%),
     caption: [The figure displays a theoretical provenance graph (own illustration).]
 ) <fig-pg-example>
 
@@ -202,10 +205,12 @@ $ <eq-graph-context>
 
 == Knowledge graph <sec-knowledge-graph>
 
-`ShadeWatcher` uses machine learning (ML) methods that work on a knowledge graph (KG) as input.
+`ShadeWatcher` gives a knowledge graph (KG) as an input to the machine learning methods.
 The KG represents data and dependencies with context-specific entities and their interactions @knowledge-graphs-2022.
-To achieve this, the authors of `ShadeWatcher` combined the PG with the CG, which was possible due to their similar structure (see @eq-graph-provenance and @eq-graph-context).
+The authors of `ShadeWatcher` retrieve this representation by combining the PG and CG.
+One can union the two graphs due to their similar structure (see @eq-graph-provenance and @eq-graph-context).
 The PG provides the system's topological structure, while the CG provides system behaviour @watson-2021.
+
 $
 cal(G)_K &= cal(G)_P union cal(G)_C
 $ <eq-graph-knowledge>
@@ -214,68 +219,145 @@ We have provided a visual representation of a KG (@fig-kg) for completeness.
 It shows a data exfiltration scenario where a user tried to mislead a threat detection system by disguising the copy of a sensitive file @watson-2021.
 
 #figure(
-    image("../figures/shadewatcher-illustrations-pg-context-single.drawio.png", alt: "Constructed example to illustrate provenance."),
+    image("../figures/shadewatcher-illustrations-pg-context-single.drawio.png", alt: "The figure displays a simple knowledge graph."),
     caption: [The figure displays a simple knowledge graph (Modified @watson-2021).]
 ) <fig-kg>
 
+`ShadeWatcher` utilises the KG to create two types of embeddings:
+
++ Embeddings for first-order entities enclose *first-hop relations* using translation-based methods like `TransE` @transe-2013, `TransH` @transh-2014, or `TransR` @transr-2015.
++ Embeddings for higher-order entities enclose *multi-hop relations* using graph convolutions @graph-convolutional-network-2016 with attentive propagation @gat-2018 and `GraphSAGE` aggregation @graph-sage-2017.
+
+The following two sections will discuss these two approaches in detail.
 
 == Translational embeddings <sec-translational-embeddings>
+
+One technique for creating embeddings for multi-relational data involves using a directed graph @transe-2013. 
+The idea is to generate low-dimensional embeddings for entities and relations in a shared embedding space ($RR^k$).
+In this space, relations are represented as translations, and if a triplet like $(italic("h, l, t"))$ represents a valid relationship, then the desired outcome is that $italic(h) + italic(l) approx italic(t)$.
+
+However, for more complex relation types like 1-to-Many, Many-to-1 or reflexive relations, simply creating three embeddings and optimising their distance is not enough, as pointed out by @transh-2014.
+The capacity of the `TransE` model for this purpose is relatively low #cite("transe-2013", "transh-2014"). 
+Therefore, `TransH` introduces the concept of hyperplane translations.
+
+In `TransH` @transe-2013, entity and relation space are separated, and each entity has a relations-specific translation.
+To achieve this, the authors describe the hyperplane using a normal vector, which is then used to perform a projection onto the hyperplane. 
+The relation vector is orthogonal to the normal vector.
+This approach allows for more sophisticated modelling of relations beyond the essential translations used in `TransE`.
+
+Still, because `TransH` assumes identical entity and relation embedding dimensions, it misses delicate nuances @transr-2015.
+Accordingly,  the authors of `TransR` @transr-2015 incorporated the differentiation of embedding dimensions, allowing the model to outperform its predecessors.
+
+`ShadeWatcher` employs the `TransR` method because it provides state-of-the-art performance regarding link predictions.
+The following paragraphs elaborate on the learning process of `TransR`.
+
+Embeddings are n-dimensional vectors that aim to represent an entity and relation in the KG.
+In the case of a triplet, $(h, r, t)$, both entities - $h$ and $t$ - and the relation - $r$ - have their corresponding embeddings, which are trainable (@eq-transr-embeddings). 
+`ShadeWatcher` did not further define the initialisation, but one can use one-hot encoding or random values. 
 
 $
 (h,r,t) : bold(e)_h, bold(e)_t in RR^k and bold(e)_r in RR^d
 $ <eq-transr-embeddings>
 
+The translation of an entity is only possible in _relation space_.
+Therefore, we perform a projection using a relation-specific projection matrix (@eq-tranr-projection-matrix). 
+Accordingly, `TransR` expects a similar outcome to `TransE` ($bold(bold(e)_h^r + bold(e)_r approx bold(e)_t^r)$).
+Subscript $r$ indicates the projection.
+As with the embedding, the projection matrix is trainable, and the initialisation is undefined but likely random.
+
 $
 bold(M_r) in RR^(k times d)
 $ <eq-tranr-projection-matrix>
+
+The performance of the embeddings is measured with a score function (@eq-tranr-measure) that indicates dissimilarity @transe-2013.
+`ShadeWatcher` deviates from the original suggestion in `TransR` @transr-2015 by only measuring the distance without squaring the result. 
+This change has the effect of less penalty for significant differences. 
 
 $
 bold(e)_h^r = bold(e)_h bold(M)_r and bold(e)_t^r = bold(e)_t bold(M)_r\ 
 f(h,r,t) = || bold(bold(e)_h^r + bold(e)_r - bold(e)_t^r) ||
 $ <eq-tranr-measure>
 
+The model's performance is calculated using a margin-based pairwise ranking loss function #cite("shadewatcher-2022", "transe-2013", "transr-2015"). 
+This function optimises the learnable parameters based on the knowledge graph's observed and unobserved (corrupted) triplets.
+We obtain corrupted triplets by replacing the entity -  $h$ or $t$ - with a random entity. 
+Since there is a risk of sampling valid triplets, `TransR` @transr-2015 must account for the relation type, e.g. in a 1-to-many relation type corrupting $t$ would have a higher likelihood of being a valid triplet again.
+The margin, a hyperparameter, is used to separate further corrupted and valid triplets. 
+The loss function aims to maximise similarity for valid and minimise similarity for corrupted tuples. 
+The loss term contributes to the complete loss later. 
+
 $
 cal(L)_"first" &= sum_((h,r,t) in cal(G)_K) sum_((h',r,t') in.not cal(G)_K) sigma(f(h,r,t) - f(h',r,t') + gamma) \
 $ <eq-tranr-loss>
 
+In the loss function, $sigma$ denotes a non-linear transformation. 
+`ShadeWatcher` replaced ReLU @transe-2013 with the Softplus function, $log(1+exp(x))$.
+
+// @fig-transr
+
+// #figure(
+//     image("../figures/shadewatcher-illustrations-transr.drawio.png", alt: "The illustration shows the translational-based entity embedding approach.", width: 90%),
+//     caption: [The illustration shows the translational-based entity embedding approach (modified @transr-2015).]
+// ) <fig-transr>
+
 == Graph neural network <sec-graph-neural-networks>
+
+#lorem(25)
 
 $
 bold(z)_h^((l)) = g(bold(z)_h^((l-1)), bold(z)_(cal(N)_h)^((l-1)))
 $ <eq-gnn-layer-activations>
 
+#lorem(50)
+
 $
 bold(z)_(cal(N)_h)^((l-1)) = sum_(t in cal(N)_h) alpha(h,r,t)bold(z)^((l-1))_t : (h,r,t) in cal(G)_K
 $ <eq-gnn-neighbourhood>
 
+#lorem(50)
+
 $
-e(h,r,t) = bold(e)_t^r^top tanh(bold(e)_h^r + bold(e)_r)\
-alpha(h,r,t) = "softmax"(e(h,r,t))=(exp(e(h,r,t)))/(sum_(t_h in cal(N)_h) exp(e(h,r,t_h)))
+e(h,r,t) &= bold(e)_t^r^top tanh(bold(e)_h^r + bold(e)_r)\
+alpha(h,r,t) &= "softmax"(e(h,r,t)) = (exp(e(h,r,t)))/(sum_(t_h in cal(N)_h) exp(e(h,r,t_h)))
 $ <eq-gnn-attention>
+
+#lorem(50)
 
 $
 g(bold(z)_h^((l-1)), bold(z)_(cal(N)_h)^((l-1))) = "leakyReLU"((bold(z)_h^((l-1)) || bold(z)_(cal(N)_h)^((l-1)))bold(W)^((l)))
 $ <eq-gnn-aggregation>
 
+#lorem(50)
+
 $
 z_h^* = bold(z)_h^((0)) || ... || bold(z)_h^((L)) : {bold(z)_h^((0)),...,bold(z)_h^((L))}
 $ <eq-gnn-embedding>
+
+#lorem(50)
 
 $
 hat(y)_"ht" = bold(z)_h^*^top * bold(z)_t^*
 $ <eq-gnn-cosine-similarity>
 
+#lorem(50)
+
 $
 cal(L)_"higher" = sum_((h,r_0,t) in cal(G)_K) sum_((h',r_0,t') in.not cal(G)_K) sigma(hat(y)_"ht" - hat(y)_"h't'")
 $ <eq-gnn-loss>
+
+#lorem(50)
 
 $
 cal(L) = cal(L)_"first" + cal(L)_"higher" + lambda || theta ||
 $ <eq-shadewatcher-loss>
 
+#lorem(50)
+
 $
 theta = {bold(e)_h, bold(e)_r, bold(e)_t, bold(W)_r, bold(W)^((l)) : h,t in cal(V), r in cal(E), l in {1,...,L}}
 $ <eq-shadewatcher-params>
+
+#lorem(50)
 
 $
 italic("similarity") = bold(a) dot bold(b) = cos(theta) dot || bold(a) ||_2 dot || bold(b) ||_2

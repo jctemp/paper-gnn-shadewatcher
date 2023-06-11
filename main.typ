@@ -4,7 +4,7 @@
   paper-size: "a4",
   title: "ShadeWatcher",
   abstract: [
-    #lorem(80)
+    #lorem(100)
   ],
   authors: (
     (
