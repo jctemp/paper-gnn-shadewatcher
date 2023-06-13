@@ -34,6 +34,9 @@ Requires confirmation in a real world environment.
 Attacker can perform adversarial attack on GNN by manipulating KG.
 In general important for ML-based techniques with that the approaches to mitigate the risk.
 \
+Long-term monitoring of system behaviour is troublesome (concept drift)
+Current state does not mitigate that.
+\
 Coining recommendation to threat detection is an intresting concept.
 More exploration in the direction seems promising.
 Requires to overcome transductive setting.
