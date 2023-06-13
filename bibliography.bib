@@ -305,3 +305,30 @@ volume={29},
 number={12},
 pages={2724-2743},
 doi={10.1109/TKDE.2017.2754499}}
+
+@misc{tbdfs-2022,
+title={tBDFS: Temporal Graph Neural Network Leveraging DFS}, 
+author={Uriel Singer and Haggai Roitman and Ido Guy and Kira Radinsky},
+year={2022},
+eprint={2206.05692},
+archivePrefix={arXiv},
+primaryClass={cs.LG}
+}
+
+@inproceedings{strgnn-2021,
+author = {Cai, Lei and Chen, Zhengzhang and Luo, Chen and Gui, Jiaping and Ni, Jingchao and Li, Ding and Chen, Haifeng},
+title = {Structural Temporal Graph Neural Networks for Anomaly Detection in Dynamic Graphs},
+year = {2021},
+isbn = {9781450384469},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3459637.3481955},
+doi = {10.1145/3459637.3481955},
+abstract = {Detecting anomalies in dynamic graphs is a vital task, with numerous practical applications in areas such as security, finance, and social media. Existing network embedding based methods have mostly focused on learning good node representations, whereas largely ignoring the subgraph structural changes related to the target nodes in a given time window. In this paper, we propose StrGNN, an end-to-end structural temporal Graph Neural Network model for detecting anomalous edges in dynamic graphs. In particular, we first extract the h-hop enclosing subgraph centered on the target edge and propose a node labeling function to identify the role of each node in the subgraph. Then, we leverage the graph convolution operation and Sortpooling layer to extract the fixed-size feature from each snapshot/timestamp. Based on the extracted features, we utilize the Gated Recurrent Units to capture the temporal information for anomaly detection. We fully implement StrGNN and deploy it into a real enterprise security system, and it greatly helps detect advanced threats and optimize the incident response. Extensive experiments on six benchmark datasets also demonstrate the effectiveness of StrGNN.},
+booktitle = {Proceedings of the 30th ACM International Conference on Information \& Knowledge Management},
+pages = {3747–3756},
+numpages = {10},
+keywords = {dynamic graphs, graph embedding, intrusion detection, graph neural network, graph structural feature extraction, anomaly detection},
+location = {Virtual Event, Queensland, Australia},
+series = {CIKM '21}
+}
