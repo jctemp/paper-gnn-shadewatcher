@@ -5,8 +5,11 @@
   title: "ShadeWatcher: Recommendation-guided Cyber
 Threat Analysis using System Audit Records",
   abstract: [
-    // todo
-    #lorem(100)
+    This paper covers the novel approach of recommendation-based threat detection realised by `ShadeWatcher`.
+    We aim to break down the various components used in `ShadeWatcher` and make them more accessible to a general audience.
+    Furthermore, the paper contains inferred explanations for undiscussed aspects in the original paper.
+    The paper does not contain an evaluation because of missing comparative data.
+    Nonetheless, we will discuss the current concept's caveats and opportunities.
   ],
   authors: (
     (
