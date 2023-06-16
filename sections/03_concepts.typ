@@ -1,10 +1,3 @@
-#set math.equation(numbering: "(1)")
-#show math.equation.where(block: true): set text(size: 9pt)
-#show math.equation.where(block: false): set text(size: .9em)
-#show math.equation.where(block: true): it => {
-    pad(y: .2em, it)
-}
-
 = Concepts <sec-concepts>
 
 // paragraph
@@ -378,6 +371,7 @@ $
 cal(L)_"higher" = sum_((h,r_0,t) in cal(G)_K) sum_((h',r_0,t') in.not cal(G)_K) sigma(hat(y)_"ht" - hat(y)_"h't'")
 $ <eq-gnn-loss>
 
+For the triplets, the authors @shadewatcher-2022 only consider connections with the _interact_ relation denoted by $r_0$ in the above equation.
 To complete the process, we need to specify the overall objective.
 Accordingly, we can identify the parameters that can be trained.
 
