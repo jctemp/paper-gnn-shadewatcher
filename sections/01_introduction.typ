@@ -1,19 +1,29 @@
 = Introduction <sec-introduction>
 
+`ShadeWatcher` #cite("shadewatcher-2022", "shadewatcher-source-2022") is a recommendation-guided cyber threat analysis detector.
+It is a novel approach to detect advanced persistent threats (APT), combining the concept of provenance, graph neural networks and recommendation systems.
+The goal of this paper is to present `ShadeWatcher`.
+We aim to provide a comprehensive overview and clarify the approach.
+
 == Motivation <sec-motivation>
 
-Historic techniques (statistical, rule-based, etc.) are not efficient for large data
+In recent years, APTs emerge as a new class of cyber threats, becoming increasingly common #cite("apt-2014", "apt-2019").
+The problem with APTs is that they use various techniques to breach a system, which can extend over a long period.
+Hence, detection is challenging.
 
-#lorem(50)
+Traditional methods of detection are not sufficient, as APTs have been known to bypass detection despite efforts to identify them #cite("shadewatcher-2022","threatrace-2022","unicorn-2020"). 
+As a result, a new approach, provenance-based anomaly detection, has been proposed, capable of detecting APTs @unicorn-2020. 
+This technique takes a more comprehensive approach to monitoring system activity and can detect suspicious behaviour that may indicate an APT, leveraging systems provenance and machine learning.
 
 == Approach <sec-approach>
 
-Problem definition
-
-#lorem(100)
-
-#show: columns.with(1, gutter: 12pt)
-#set columns(1)
+`ShadeWatcher`'s approach to detecting APTs is to use provenance graphs and graph neural networks to detect malicious behaviour.
+We can see this in @fig-sw-example.
+The illustration shows the architecture of `ShadeWatcher` with the required steps to make a prediction.
+The first step is to collect provenance data from the system.
+The data is then used to construct a provenance graph and derive the context graph.
+These two are then used to derive the knowledge graph, which is used to train the `TransR` @transr-2015 and the graph neural network @graph-convolutional-network-2016.
+Both models are then used to create various embeddings, which are then used to give a recommendation.
 
 #figure(
     image("../figures/shadewatcher-illustrations-arch-vertical.drawio.png", alt: "Constructed example to illustrate provenance."),
@@ -23,21 +33,8 @@ Problem definition
 
 == Overview <sec-overview>
 
-Section with their content
-
-#lorem(50)
-
-
-// J. Zengy, X. Wang, et al. @shadewatcher2022
-// #lorem(300)
-
-//Efficient analysis needed for extensive data
-// @recommendation2019 GNN enables linear time complexity
-
-// Motivate machine learning for audit evaluation
-// Present existing classic techniques
-// Introduce the idea of graph-based learning
-// teaser of provenance graph and define benign and malicious detection as a recommendation problem
-
-
-// introduce that other works are tacking the problem
+The paper is structured as follows.
+We start with a brief overview of the related work in @sec-related-work, discussing other approaches to detect APTs.
+In @sec-concepts, we will cover the used concepts by `ShadeWatcher`, explaining the parts seen in @fig-sw-example in more detail.
+Recommendations follow this in @sec-recommendation, where we explain the recommendation process.
+Finally, we have a short discussion in @sec-discussion.

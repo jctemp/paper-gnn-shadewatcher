@@ -2,8 +2,10 @@
 
 #show: ieee.with(
   paper-size: "a4",
-  title: "ShadeWatcher",
+  title: "ShadeWatcher: Recommendation-guided Cyber
+Threat Analysis using System Audit Records",
   abstract: [
+    // todo
     #lorem(100)
   ],
   authors: (

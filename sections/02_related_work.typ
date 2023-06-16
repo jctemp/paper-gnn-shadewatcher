@@ -16,6 +16,6 @@ Furthermore, it allows the model to forget learned features, which mitigates the
 
 == ThreaTrace <sec-thretrace>
 
-In contrast to `Unicorn`, `TreaTrace` @threatrace-2022 uses inductive graph neural network learning (`GraphSAGE`) to learn the benign behaviour of a system.
+In contrast to `Unicorn`, `TreaTrace` @threatrace-2022 uses inductive graph neural network learning (`GraphSAGE`) to learn the benign (normal) behaviour of a system.
 Further, they leverage the idea of boosting, using multiple models for subgraphs approximating the whole graph.
-Finally, detected points are traceable, making the reasoning process more transparent.
+Finally, detected anomalies are traceable, making the reasoning process more transparent.
