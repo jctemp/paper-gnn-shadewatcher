@@ -17,6 +17,10 @@ Therefore, we propose to consider the following two aspects:
 Hence, research is required to incorporate the concepts potentially.
 We have found two other papers #cite("strgnn-2021","tbdfs-2022") already exploring the problem that covers structural temporal learning as well as GNNs that consider BFS and DFS.
 
+#text(fill: red)[
+    Elaborate how the two models StrGNN and TBDFS can be used to improve the ShadeWatcher model.
+]
+
 Another issue of `ShadeWatcher`, acknowledged by the authors, is that the model requires retraining the complete model for unseen data.
 It is caused by the transductive model `TransR` #cite("link-prediction-article-2017", "inductive-link-prediction-2022").
 Not only that, retraining is potentially expensive @inductive-link-prediction-2017, especially for high dimensions, significantly impacting runtime @link-prediction-article-2017.
