@@ -3,7 +3,7 @@
 // paragraph
 
 In this section, we will discuss the various concepts that enable `ShadeWatcher` to predict malicious and benign behaviour of system entities.
-We will cover the following topics: graph theory, recommender systems, provenance graphs, context awareness, knowledge graphs, translational embeddings, and graph neural networks.
+We will cover the following topics: graph theory, recommender systems, provenance graphs, context graphs, knowledge graphs, translational embeddings, and graph neural networks.
 
 == Graph theory <sec-graph-theory>
 
@@ -159,7 +159,7 @@ By utilising provenance data, one can systematically analyse the changed state i
 In a previous @sec-recommender-systems, we discussed how side information is essential for recommendation @kgat-2019.
 In the case of threat analysis, side information allows one to form high-order connections #cite("shadewatcher-2022", "watson-2021") in the PG.
 High-order connections mean that two system entities are indirectly connected via multiple hops (a hop means traversing an edge in a graph).
-Consequentially, it supplies additional semantics regarding the system entity's context @shadewatcher-2022.
+Consequentially, it supplies additional semantics regarding the system entity's context @watson-2021.
 
 The problem is that the PG does not directly encode the side information @shadewatcher-2022.
 Therefore, `ShadeWatcher` uses the system entity's context to derive side information.
@@ -177,10 +177,10 @@ Secondly, handling entities with a high node degree is necessary because these c
 Accordingly, the authors suggested filtering these events through statistical analysis and expert knowledge.
 
 After incorporating the constraints, it is possible to conduct additional semantic analysis and explore subgraphs.
-`ShadeWatcher` uses methods to determine the subgraphs for root entity objects (entities at which the method starts the discovery).
+`ShadeWatcher` uses DFS to determine the subgraphs for root entity objects (entities at which the method starts the discovery).
 The authors limited the root entities by partitioning the entity set ($cal(V)$) into two disjoint subsets.
-One has data entities ($cal(D)$), files and sockets.
-All other entities belong to the subset of system entities ($cal(S)$).
+The first set contains data objects ($cal(D)$), files and sockets, which will represent root entities.
+All other entities belong to the second subset of system entities ($cal(S)$).
 The final step is to take all descending entities in the graph and create the root-children interactions.
 These connections will be labelled with an _interact_ relation type.
 
@@ -188,7 +188,7 @@ Finally, we can define the entity context graph (CG), modelling semantic system 
 The corresponding @eq-graph-context expresses the configuration.
 Note that the `ShadeWatcher` author called this graph a bipartite; however, we changed the name to avoid confusion with the mathematical definition of a bipartite graph.
 The authors intended to assemble a similar structure to a bipartite graph because it preserves the collaborative filtering signal @gnn-recommendation-2020 (the concept of user-item interactions).
-The meaning of a similar structure is that the context graph has partitions for entities; however, we do not constrain the interactions within the disjoint subsets.
+More precisely, the newly formed entity context graphs have subsets of entities like bipartite graphs; however, they do not constrain the interactions within the disjoint subsets.
 
 $
 cal(G)_C &= (cal(V), cal(E)) \
@@ -215,8 +215,8 @@ It shows a data exfiltration scenario where a user tried to mislead a threat det
 
 `ShadeWatcher` utilises the KG to create two types of embeddings:
 
-+ Embeddings for first-order entities enclose *first-hop relations* using translation-based methods like `TransE` @transe-2013, `TransH` @transh-2014, or `TransR` @transr-2015.
-+ Embeddings for higher-order entities enclose *multi-hop relations* using graph convolutions @graph-convolutional-network-2016 with attentive propagation @gat-2018 and `GraphSAGE` aggregation @graph-sage-2017.
++ Embeddings for first-order entities express *first-hop relations* using translation-based methods like `TransE` @transe-2013, `TransH` @transh-2014, or `TransR` @transr-2015.
++ Embeddings for higher-order entities describe *multi-hop relations* using graph convolutions @graph-convolutional-network-2016 with attentive propagation @gat-2018 and `GraphSAGE` aggregation @graph-sage-2017.
 
 The following two sections will discuss these two approaches in detail.
 
@@ -265,15 +265,15 @@ bold(M_r) in RR^(k times d)
 $ <eq-tranr-projection-matrix>
 
 The performance of the embeddings is measured with a score function (@eq-tranr-measure) that indicates dissimilarity @transe-2013.
-`ShadeWatcher` deviates from the original suggestion in `TransR` @transr-2015 by only measuring the distance without squaring the result. 
-This change has the effect of less penalty for significant differences. 
+`ShadeWatcher` deviates from the original suggestion in `TransR` @transr-2015 by only measuring the distance without squaring the result.
+Consequentially, high distances are less penalised.
 
 $
 bold(e)_h^r = bold(e)_h bold(M)_r and bold(e)_t^r = bold(e)_t bold(M)_r\ 
 f(h,r,t) = || bold(bold(e)_h^r + bold(e)_r - bold(e)_t^r) ||
 $ <eq-tranr-measure>
 
-The model's performance is calculated using a margin-based pairwise ranking loss function #cite("shadewatcher-2022", "transe-2013", "transr-2015"). 
+The model's performance is calculated using a margin-based pairwise ranking loss function #cite("shadewatcher-2022", "transr-2015", "transe-2013"). 
 This function optimises the learnable parameters based on the knowledge graph's observed and unobserved (corrupted) triplets.
 We obtain corrupted triplets by replacing the entity -  $h$ or $t$ - with a random entity. 
 Since there is a risk of sampling valid triplets, `TransR` @transr-2015 must account for the relationship cardinality, e.g. in a 1-to-many scenario corrupting $t$ would have a higher likelihood of being a valid triplet again.
@@ -288,22 +288,23 @@ $ <eq-tranr-loss>
 In the loss function, $sigma$ denotes a non-linear transformation. 
 `ShadeWatcher` replaced the ReLU @transe-2013 with the Softplus function, $log(1+exp(x))$.
 
-// @fig-transr
+@fig-transr conceptualises how `TransR` utilises the projection matrix to transform entity embeddings to relations space.
+Additionally, every relation type has a projection matrix, yielding multiple relation-specific entity embeddings. 
 
-// #figure(
-//     image("../figures/shadewatcher-illustrations-transr.drawio.png", alt: "The illustration shows the translational-based entity embedding approach.", width: 90%),
-//     caption: [The illustration shows the translational-based entity embedding approach (modified @transr-2015).]
-// ) <fig-transr>
+#figure(
+    image("../figures/shadewatcher-illustrations-transr.drawio.png", alt: "The illustration shows the translational-based entity embedding approach.", width: 90%),
+    caption: [The illustration shows the translational-based entity embedding approach (modified @transr-2015).]
+) <fig-transr>
 
 == Graph neural network <sec-graph-neural-networks>
 
 As previously discussed, when it comes to system entities, their context can be used as additional information represented by high-order connections via a multi-hop path. 
-A graph neural network (GNN) #cite("shadewatcher-2022", "kgat-2019", "graph-convolutional-network-2016") aims to provide higher-level information.
+A graph neural network (GNN) #cite("shadewatcher-2022", "graph-convolutional-network-2016", "kgat-2019") aims to provide higher-level information.
 With message passing, entities update their representations by accumulating recursively propagated neighbour information.
-Hence, the GNN consists of $L$ layers.
+We achieve information propagation by defining $L$ layers representing $L$ hops in the neighbourhood.
 
-With these layers (@eq-gnn-layer-activations), the GNN can update the representation $bold(z)_h^((l))$ for a given entity $h$. 
-For each layer, the algorithm updates the representation of an entity $h$ using its previous value and the neighbourhood $cal(N)_h$. 
+With a layer (@eq-gnn-layer-activations), the GNN can update the representation $bold(z)_h^((l))$ for a given entity $h$. 
+An update uses $h$'s previous value and neighbourhood values $cal(N)_h$. 
 The initialisation of $bold(z)_h^((0))$ is done using the embedding $e_h^r$ provided by `TransR`.
 
 $
@@ -314,21 +315,22 @@ The neighbourhood representation is the sum of neighbour values in layer $l-1$ (
 The `ShadeWatcher` authors highlight that not all neighbourhood entities are relevant.
 Therefore, they incorporated an attention mechanism @gat-2018.
 Hence, each neighbour has an attention coefficient $alpha$ assigned to show its importance in the neighbourhood.
-Note that a triplet $(h, r, t)$ must include in KG. 
 
 $
 bold(z)_(cal(N)_h)^((l-1)) = sum_(t in cal(N)_h) alpha(h,r,t)bold(z)^((l-1))_t : (h,r,t) in cal(G)_K
 $ <eq-gnn-neighbourhood>
 
-`ShadeWatcher` uses a customised function to calculate the attention coefficient #cite("shadewatcher-2022","gat-2018").
-The `ShadeWatcher` paper @shadewatcher-2022 does not detail the decision-making process, but we can still make some inferences about the design.
-Determining the energy value, denoted as $e(h,r,t)$, involves utilising the `TransR` embeddings.
-By using the dot product, a scalar is obtained that indicates similarity.
-Recall that two entities, $h$ and $t$, with a well-learned relation, will result in a similar direction in relation space ($bold(e)_t^r^top approx bold(e)_h^r + bold(e)_r$).
-Furthermore, the `TransR` embeddings encoding semantic and behaviour information #cite("shadewatcher-2022", "watson-2021").
-For entities that are not related, the scalar will be negative.
-The $tanh$ function is applied to increase the expressiveness @gat-2018.
-The `ShadeWatcher` authors applied a softmax over the neighbourhood to acquire a normalised coefficient.
+#text(fill: red)[
+    `ShadeWatcher` uses a customised function to calculate the attention coefficient #cite("shadewatcher-2022","gat-2018").
+    The `ShadeWatcher` paper @shadewatcher-2022 does not detail the decision-making process, but we can still make some inferences about the design.
+    Determining the energy value, denoted as $e(h,r,t)$, involves utilising the `TransR` embeddings.
+    By using the dot product, a scalar is obtained that indicates similarity.
+    Recall that two entities, $h$ and $t$, with a well-learned relation, will result in a similar direction in relation space ($bold(e)_t^r^top approx bold(e)_h^r + bold(e)_r$).
+    Furthermore, the `TransR` embeddings encoding semantic and behaviour information #cite("shadewatcher-2022", "watson-2021").
+    For entities that are not related, the scalar will be negative.
+    The $tanh$ function is applied to increase the expressiveness @gat-2018.
+    The `ShadeWatcher` authors applied a softmax over the neighbourhood to acquire a normalised coefficient.
+]
 
 $
 e(h,r,t) &= bold(e)_t^r^top * tanh(bold(e)_h^r + bold(e)_r)\
@@ -336,8 +338,7 @@ alpha(h,r,t) &= "softmax"(e(h,r,t)) \
              &= (exp(e(h,r,t)))/(sum_(t_h in cal(N)_h) exp(e(h,r,t_h)))
 $ <eq-gnn-attention>
 
-For the aggregation function (@eq-gnn-aggregation), it follows the `GraphSAGE` @graph-sage-2017 specified criteria (symmetric and trainable). 
-Furthermore, the authors of `ShadeWatcher` have adopted an individual solution @kgat-2019. 
+The aggregation function (@eq-gnn-aggregation) is adopted from @kgat-2019, following the `GraphSAGE` @graph-sage-2017 specified criteria (symmetric and trainable).
 In terms of each layer, there is a shared learnable weight represented by $bold(W)^((l))$, which linearly transforms the concatenated values of the current node $h$ and $cal(N)_h$. 
 It is worth mentioning that the symbol $dot || dot$ denotes the used concatenation operator. 
 Additionally, for enhanced expressiveness, the value undergoes a non-linear transformation using a leakyReLU function.

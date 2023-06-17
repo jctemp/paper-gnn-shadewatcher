@@ -1,7 +1,9 @@
 = Recommendation <sec-recommendation>
 
-Once the audit data has been captured and processed and the training on `ShadeWatcher` is complete, users can predict interactions between existing entities within a system. 
-For that, entities are passed to `ShadeWatcher` for a recommendation, propagated through the GNN, yielding a representation that encodes their behaviour and neighbourhood (@eq-gnn-embedding).
+Performing recommendations requires a KG, the `TransR` entity embeddings and the learned GNN weights.
+Note that these should be available after training.
+Having these three requirements met, one can pass triplets with the interact relation type denoted by $r_0$ to `ShadeWatcher` for a recommendation.
+These are propagated through the GNN, yielding a representation that encodes their behaviour and neighbourhood (@eq-gnn-embedding).
 Taking the dot product (@eq-gnn-cosine-similarity) of these representations gives a prediction, which is labelled depending on a pre-defined threshold.
 
 In a real system, this process would happen automatically.

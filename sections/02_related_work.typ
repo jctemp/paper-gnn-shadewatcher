@@ -1,7 +1,7 @@
 = Related work <sec-related-work>
 
 Besides `ShadeWatcher` @shadewatcher-2022, other anomaly-based detectors exist.
-We will briefly present two detectors for the following sections: `Unicorn` @unicorn-2020 and `TreaTrace` @threatrace-2022.
+We will briefly present two detectors going in a similar direction: `Unicorn` @unicorn-2020 and `TreaTrace` @threatrace-2022.
 
 `Unicorn` and `TreaTrace` leveraged the idea of whole-system provenance and were designed for real-time usage.
 They also aim to allow for long-term system behaviour monitoring to detect APTs.

@@ -27,7 +27,7 @@ Both models are then used to create various embeddings, which are then used to g
 
 #figure(
     image("../figures/shadewatcher-illustrations-arch-vertical.drawio.png", alt: "Constructed example to illustrate provenance."),
-    caption: [The figure displays a theoretical provenance graph (own illustration).]
+    caption: [The figure displays the `ShadeWatcher` architecture (adapted and modified @kgat-2019).]
 ) <fig-sw-example>
 
 
