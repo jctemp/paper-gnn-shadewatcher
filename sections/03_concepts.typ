@@ -317,23 +317,22 @@ Therefore, they incorporated an attention mechanism @gat-2018.
 Hence, each neighbour has an attention coefficient $alpha$ assigned to show its importance in the neighbourhood.
 
 $
-bold(z)_(cal(N)_h)^((l-1)) = sum_(t in cal(N)_h) alpha(h,r,t)bold(z)^((l-1))_t : (h,r,t) in cal(G)_K
+bold(z)_(cal(N)_h)^((l-1)) = sum_(t in cal(N)_h) alpha(h,r,t) underbracket(bold(z)^((l-1))_t, "Value") : (h,r,t) in cal(G)_K
 $ <eq-gnn-neighbourhood>
 
-#text(fill: red)[
-    `ShadeWatcher` uses a customised function to calculate the attention coefficient #cite("shadewatcher-2022","gat-2018").
-    The `ShadeWatcher` paper @shadewatcher-2022 does not detail the decision-making process, but we can still make some inferences about the design.
-    Determining the energy value, denoted as $e(h,r,t)$, involves utilising the `TransR` embeddings.
-    By using the dot product, a scalar is obtained that indicates similarity.
-    Recall that two entities, $h$ and $t$, with a well-learned relation, will result in a similar direction in relation space ($bold(e)_t^r^top approx bold(e)_h^r + bold(e)_r$).
-    Furthermore, the `TransR` embeddings encoding semantic and behaviour information #cite("shadewatcher-2022", "watson-2021").
-    For entities that are not related, the scalar will be negative.
-    The $tanh$ function is applied to increase the expressiveness @gat-2018.
-    The `ShadeWatcher` authors applied a softmax over the neighbourhood to acquire a normalised coefficient.
-]
+The attention coefficients (@eq-gnn-attention) are calculated using a customised function @gat-2018.
+The `ShadeWatcher` paper @shadewatcher-2022 does not detail the decision-making process, but we can still make some inferences about the design.
+We can draw parallels to the concept presented in @transformer-2017.
+The question, representing our _query_, is "Which neighbour $t$ is closest related to the translated $h$?".
+Accordingly, the goal is to find the neighbour where $bold(e)_t^r^top approx bold(e)_h^r + bold(e)_r$ is true.
+The dot product compares the _key_ (embedding of $t$) with the _query_ (translated embedding of $h$).
+In other words, we want to find the neighbour whose context does match $h$'s context best.
+The attention coefficient is then used to weight the _value_ in @eq-gnn-neighbourhood.
+Regarding the non-linear function (here $tanh$), the authors #cite("shadewatcher-2022", "kgat-2019", "gat-2018") did not explain the purpose, making it difficult to reason about the effect.
+Further, the original concept @transformer-2017 does not use a non-linear function before the softmax.
 
 $
-e(h,r,t) &= bold(e)_t^r^top * tanh(bold(e)_h^r + bold(e)_r)\
+e(h,r,t) &= underbracket(bold(e)_t^r^top, "Key") * underbracket(tanh(bold(e)_h^r + bold(e)_r), "Query")\
 alpha(h,r,t) &= "softmax"(e(h,r,t)) \
              &= (exp(e(h,r,t)))/(sum_(t_h in cal(N)_h) exp(e(h,r,t_h)))
 $ <eq-gnn-attention>
