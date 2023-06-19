@@ -16,9 +16,8 @@ Therefore, we propose to consider the following two aspects:
 - Combining DFS and BFS.
 - Consider temporal information.
 
-To further stress this thought, we have picked two papers #cite("strgnn-2021","tbdfs-2022") that discuss the aspect of including temporal and structural information.
-In general, the motivation is that attacks have a structural pattern creating a specific topology in the PG #cite("shadewatcher-2022", "threatrace-2022", "unicorn-2020", "strgnn-2021", "prov-gem-2021").
-Furthermore, one constructs PG based on audit data that contains temporal information, which can reveal new insights @strgnn-2021.
+To further stress this thought, we have picked two papers #cite("strgnn-2021","tbdfs-2022") discussing temporal and structural information.
+The goal is to extract structural and behavioural information while considering temporal information #cite("shadewatcher-2022", "threatrace-2022", "unicorn-2020", "strgnn-2021", "prov-gem-2021").
 
 The first paper @strgnn-2021 presents the so-called `StrGNN` model.
 It is a temporal graph neural network that aims to detect anomalies based on the graph structure.
@@ -27,7 +26,7 @@ Using the subgraphs, a GNN extracts structural features.
 Finally, it employs gated recurrent units (GRU) for temporal information.
 The authors provided an example of intrusion detection with promising results.
 Incorporating temporal information for `ShadeWatcher` could further improve prediction.
-Hence, using GAT @gat-2018 with the original attention mechanism has the potential to help with this task.
+Hence, using GAT @gat-2018 with the original attention mechanism has the potential to help with this task (multi-head attention with positional encoding @transformer-2017).
 
 The second paper @tbdfs-2022 is more concerned with the marriage of BFS and DFS.
 They utilise two attention-based aggregations for BFS and DFS, where the contribution is controlled with an interpolating factor.
@@ -35,8 +34,9 @@ Additionally, they stressed an exciting idea: distinguish between what neighbour
 Accordingly, leveraging information revealed through DFS can enhance predictions because a path represents the information flow.
 Relating this to `ShadeWatcher`, we assume that the collaborative filtering signal is not the driving factor for reliable predictions.
 We expect that DFS in the preprocessing is the crucial step showing the information flow between entities, e.g. the sensitive file and public socket.
+With that, we suggest having BFS for system entities capturing an entity context and DFS for data objects understanding information flow.
 Furthermore, incorporating a temporal encoding refines information regarding information flow due to the encoded time dependency.
-Consequentially, a GNN using this additional information can provide finer predictions.
+Consequentially, a GNN using this additional information can theoretically provide finer predictions.
 
 Despite the listed ideas, we recommend investigating the influence of `TransR` because there is also the possibility that this step prepared the information signal in a way that allows the GNN to accelerate unexpectedly.
 If this was clarified, follow-up work could plan the direction of research, e.g. replace or remove `TransR` and modify the GNN accordingly, as well as minimise preprocessing.
@@ -65,4 +65,4 @@ Our concern is not only applicable to `ShadeWatcher` but also to other machine l
 
 Besides the critique above, we are convinced that `ShadeWatcher` has an attractive approach to threat detection.
 Further exploration in this direction seems promising.
-Moreover, refining the `ShadeWatcher` to overcome the previously expressed concerns is necessary to make it usable for real-world usage.
+Moreover, refining `ShadeWatcher` to overcome the previously expressed concerns is necessary to make it usable for real-world usage.

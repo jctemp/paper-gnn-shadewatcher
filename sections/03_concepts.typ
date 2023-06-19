@@ -84,8 +84,8 @@ $ <eq-graph-provenance>
 // paragraph
 
 We want to include an example (@fig-audit-data) of audit data in `JSON` format for completeness.
-The audit data has various information about the performed action.
-More specifically, a process with the PID `18113` successfully reads `105` bytes of a file with the file descriptor `98`.
+The audit data has various information about a performed action.
+In this case, a process with the PID `18113` successfully reads `105` bytes of a file with the file descriptor `98`.
 
 #figure(
 text(size: 8pt)[
@@ -135,7 +135,7 @@ Furthermore, the authors perform additional analysis on the PG to enrich the kno
 
 // paragraph
 
-Finally, to clarify the concept of PG, we will provide an illustrative example explained in @provenance-aware-2006. 
+Finally, we will provide an illustrative example explained in @provenance-aware-2006, which aims to demonstrate the strength of a PG. 
 We constructed a theoretical illustration (@fig-pg-example) based on the scenario described.
 
 // paragraph
@@ -146,7 +146,7 @@ Accordingly, deleting a sensitive file would move it to a location where the att
 
 // paragraph
 
-By utilising provenance data, one can systematically analyse the changed state in the system and recognise that sensitive information is moved to an odd location (e.g. sockets) which is suspicious and an indicator of malicious behaviour.
+By utilising the PG, one can systematically analyse the changed state in the system and recognise that sensitive information is moved to an odd location (e.g. sockets) which is suspicious and an indicator of malicious behaviour.
 
 #figure(
     image("../figures/shadewatcher-illustrations-pg-example.drawio.png", alt: "The figure displays a theoretical provenance graph.", width: 80%),
@@ -161,16 +161,16 @@ In the case of threat analysis, side information allows one to form high-order c
 High-order connections mean that two system entities are indirectly connected via multiple hops (a hop means traversing an edge in a graph).
 Consequentially, it supplies additional semantics regarding the system entity's context @watson-2021.
 
-The problem is that the PG does not directly encode the side information @shadewatcher-2022.
+The problem is that the PG does not directly encode the side information #cite("shadewatcher-2022", "watson-2021").
 Therefore, `ShadeWatcher` uses the system entity's context to derive side information.
-A context captures a collection of system entities and interactions representing system behaviour @watson-2021.
+A context captures system entities and interactions, representing system behaviour @watson-2021.
 One can extract the context from the PG by building multiple subgraphs encoding the side information.
 
 The `ShadeWatcher` authors proposed applying depth-first search (DFS) to discover relevant subgraphs.
 However, to make DFS usable for this task, one requires further constraints for the method @watson-2021.
 
-First, one must enforce the time monotony of the events.
-With that, the authors @watson-2021 mitigate cyclic dependencies that could happen because some events can connect to others that are in the past relative to the current event.
+First, one must enforce the time monotony of the collected system events.
+With that, the authors @watson-2021 mitigate cyclic dependencies, e.g. a process returns a computed value to a parent in the past.
 Nonetheless, such connections have the potential to deliver crucial information.
 Therefore, one allows a single hop to consider past events.
 Secondly, handling entities with a high node degree is necessary because these can lead to a dependency explosion.
@@ -181,7 +181,7 @@ After incorporating the constraints, it is possible to conduct additional semant
 The authors limited the root entities by partitioning the entity set ($cal(V)$) into two disjoint subsets.
 The first set contains data objects ($cal(D)$), files and sockets, which will represent root entities.
 All other entities belong to the second subset of system entities ($cal(S)$).
-The final step is to take all descending entities in the graph and create the root-children interactions.
+The final step is to take all descending entities in the subgraph and create the root-children interactions.
 These connections will be labelled with an _interact_ relation type.
 
 Finally, we can define the entity context graph (CG), modelling semantic system entity interactions.
@@ -215,8 +215,8 @@ It shows a data exfiltration scenario where a user tried to mislead a threat det
 
 `ShadeWatcher` utilises the KG to create two types of embeddings:
 
-+ Embeddings for first-order entities express *first-hop relations* using translation-based methods like `TransE` @transe-2013, `TransH` @transh-2014, or `TransR` @transr-2015.
-+ Embeddings for higher-order entities describe *multi-hop relations* using graph convolutions @graph-convolutional-network-2016 with attentive propagation @gat-2018 and `GraphSAGE` aggregation @graph-sage-2017.
++ *First-order entity embeddings:* They express first-hop relations computed with translation-based methods like `TransE` @transe-2013, `TransH` @transh-2014, or `TransR` @transr-2015.
++ *Higher-order entity embeddings:* They describe multi-hop relations derived with graph convolutions @graph-convolutional-network-2016, attentive propagation @gat-2018 and `GraphSAGE` aggregation @graph-sage-2017.
 
 The following two sections will discuss these two approaches in detail.
 
@@ -236,9 +236,9 @@ The capacity of the `TransE` model for this purpose is relatively low #cite("tra
 Therefore, `TransH` introduces the concept of hyperplane translations.
 
 In `TransH` @transe-2013, entity and relation space are separated, and each entity has a relations-specific translation.
-To achieve this, the authors describe the hyperplane using a normal vector, which is then used to perform a projection onto the hyperplane. 
+To achieve this, the authors describe a hyperplane using a normal vector, which is then used to project entities ($h,t$) onto the hyperplane. 
 The relation vector is orthogonal to the normal vector.
-This approach allows for more sophisticated modelling of relations beyond the essential translations used in `TransE`.
+This approach allows for more sophisticated modelling of relationships beyond a simple translation.
 
 Still, because `TransH` assumes identical entity and relation embedding dimensions, it misses delicate nuances @transr-2015.
 Accordingly,  the authors of `TransR` @transr-2015 incorporated the differentiation of embedding dimensions, allowing the model to outperform its predecessors.
@@ -278,7 +278,7 @@ This function optimises the learnable parameters based on the knowledge graph's 
 We obtain corrupted triplets by replacing the entity -  $h$ or $t$ - with a random entity. 
 Since there is a risk of sampling valid triplets, `TransR` @transr-2015 must account for the relationship cardinality, e.g. in a 1-to-many scenario corrupting $t$ would have a higher likelihood of being a valid triplet again.
 The margin, a hyperparameter, is used to separate further corrupted and valid triplets. 
-The loss function aims to maximise similarity for valid and minimise similarity for corrupted tuples. 
+The loss function aims to maximise similarity for valid and minimise similarity for corrupted triples. 
 The loss term contributes to the complete loss later. 
 
 $
@@ -298,13 +298,14 @@ Additionally, every relation type has a projection matrix, yielding multiple rel
 
 == Graph neural network <sec-graph-neural-networks>
 
-As previously discussed, when it comes to system entities, their context can be used as additional information represented by high-order connections via a multi-hop path. 
-A graph neural network (GNN) #cite("shadewatcher-2022", "graph-convolutional-network-2016", "kgat-2019") aims to provide higher-level information.
-With message passing, entities update their representations by accumulating recursively propagated neighbour information.
+As previously discussed, the context of system entities is essential for better predictions.
+Recollect the context is high-order information acquired through multi-hop paths.
+A graph neural network (GNN) #cite("shadewatcher-2022", "graph-convolutional-network-2016", "kgat-2019") aims to provide high-order information.
+It employs the concept of message passing, updating entity representations by accumulating recursively propagated neighbour information.
 We achieve information propagation by defining $L$ layers representing $L$ hops in the neighbourhood.
 
-With a layer (@eq-gnn-layer-activations), the GNN can update the representation $bold(z)_h^((l))$ for a given entity $h$. 
-An update uses $h$'s previous value and neighbourhood values $cal(N)_h$. 
+A layer (@eq-gnn-layer-activations) updates the representation $bold(z)_h^((l))$ for a given entity $h$. 
+It uses $h$'s previous value and $cal(N)_h$ ($h$'s neighbourhood). 
 The initialisation of $bold(z)_h^((0))$ is done using the embedding $e_h^r$ provided by `TransR`.
 
 $
@@ -371,7 +372,7 @@ $
 cal(L)_"higher" = sum_((h,r_0,t) in cal(G)_K) sum_((h',r_0,t') in.not cal(G)_K) sigma(hat(y)_"ht" - hat(y)_"h't'")
 $ <eq-gnn-loss>
 
-For the triplets, the authors @shadewatcher-2022 only consider connections with the _interact_ relation denoted by $r_0$ in the above equation.
+For the triplets, the authors @shadewatcher-2022 only consider connections with the _interact_ relation denoted by $r_0$.
 To complete the process, we need to specify the overall objective.
 Accordingly, we can identify the parameters that can be trained.
 

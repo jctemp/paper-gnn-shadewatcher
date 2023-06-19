@@ -17,13 +17,13 @@ This technique takes a more comprehensive approach to monitoring system activity
 
 == Approach <sec-approach>
 
-`ShadeWatcher`'s approach to detecting APTs is to use provenance graphs and graph neural networks to detect malicious behaviour.
+`ShadeWatcher` uses two aspects to detect malicious behaviour in an IT system: provenance graphs and graph neural networks.
 We can see this in @fig-sw-example.
 The illustration shows the architecture of `ShadeWatcher` with the required steps to make a prediction.
 The first step is to collect provenance data from the system.
-The data is then used to construct a provenance graph and derive the context graph.
-These two are then used to derive the knowledge graph, which is used to train the `TransR` @transr-2015 and the graph neural network @graph-convolutional-network-2016.
-Both models are then used to create various embeddings, which are then used to give a recommendation.
+After collecting the data, it is utilised to create the provenance and the context graph.
+These two yield together the knowledge graph, being the input to `TransR` @transr-2015 and the graph neural network @graph-convolutional-network-2016.
+Both models compute various embeddings, which are then used to give a recommendation.
 
 #figure(
     image("../figures/shadewatcher-illustrations-arch-vertical.drawio.png", alt: "Constructed example to illustrate provenance."),
