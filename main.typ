@@ -1,8 +1,7 @@
 #import "template.typ": *
 
 #show: ieee.with(
-  title: "ShadeWatcher: Recommendation-guided Cyber
-Threat Analysis using System Audit Records",
+  title: "ShadeWatcher: Recommendation-guided Cyber Threat Analysis using System Audit Records",
   authors: (
     (
         name: "Jamie Christopher Temple",
