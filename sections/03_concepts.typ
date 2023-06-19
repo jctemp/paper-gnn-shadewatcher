@@ -55,9 +55,10 @@ $ <eq-graph-bipartite>
 
 Literature #cite("sparsity-problem-2004", "recommendation-2021", "kgat-2019") elaborates on challenges like incomplete connections and the amount of data that is needed to be analysed.
 Research aimed to improve collaborative filtering for these challenges.
-However, it still needs improvement in performance and explainability in some cases, e.g. e-commerce  @collaborative-filtering-2018.
+However, it still needs improvement in performance (e.g. prediction accuracy) and explainability @collaborative-filtering-2018.
 Therefore, one aims to improve recommendations by accommodating more information (also discussed as side information @kgat-2019).
 The side information helps to discover high-order connections #cite("kgat-2019", "collaborative-filtering-2018"), making predictions theoretically better.
+More explicitly, regarding a user-item scenario, a system can traverse high-order connections and find a connection between two users, which was previously unattainable.
 
 // paragraph
 
@@ -83,7 +84,7 @@ $ <eq-graph-provenance>
 
 // paragraph
 
-We want to include an example (@fig-audit-data) of audit data in `JSON` format for completeness.
+We want to include an example (@fig-audit-data) of audit data in `JSON` format.
 The audit data has various information about a performed action.
 In this case, a process with the PID `18113` successfully reads `105` bytes of a file with the file descriptor `98`.
 
@@ -181,7 +182,7 @@ After incorporating the constraints, it is possible to conduct additional semant
 The authors limited the root entities by partitioning the entity set ($cal(V)$) into two disjoint subsets.
 The first set contains data objects ($cal(D)$), files and sockets, which will represent root entities.
 All other entities belong to the second subset of system entities ($cal(S)$).
-The final step is to take all descending entities in the subgraph and create the root-children interactions.
+The final step is to take all descending entities in the subgraph and create root-children interactions.
 These connections will be labelled with an _interact_ relation type.
 
 Finally, we can define the entity context graph (CG), modelling semantic system entity interactions.
@@ -243,7 +244,7 @@ This approach allows for more sophisticated modelling of relationships beyond a 
 Still, because `TransH` assumes identical entity and relation embedding dimensions, it misses delicate nuances @transr-2015.
 Accordingly,  the authors of `TransR` @transr-2015 incorporated the differentiation of embedding dimensions, allowing the model to outperform its predecessors.
 
-`ShadeWatcher` employs the `TransR` method because it provides state-of-the-art performance regarding link predictions.
+`ShadeWatcher` employs the `TransR` method because it provides state-of-the-art performance for KG embeddings.
 The following paragraphs elaborate on the learning process of `TransR`.
 
 Embeddings are n-dimensional vectors that aim to represent an entity and relation in the KG.
@@ -286,7 +287,7 @@ cal(L)_"first" &= sum_((h,r,t) in cal(G)_K) sum_((h',r,t') in.not cal(G)_K) sigm
 $ <eq-tranr-loss>
 
 In the loss function, $sigma$ denotes a non-linear transformation. 
-`ShadeWatcher` replaced the ReLU @transe-2013 with the Softplus function, $log(1+exp(x))$.
+`ShadeWatcher` replaced the ReLU @transe-2013 with the softplus function.
 
 @fig-transr conceptualises how `TransR` utilises the projection matrix to transform entity embeddings to relations space.
 Additionally, every relation type has a projection matrix, yielding multiple relation-specific entity embeddings. 
@@ -299,7 +300,7 @@ Additionally, every relation type has a projection matrix, yielding multiple rel
 == Graph neural network <sec-graph-neural-networks>
 
 As previously discussed, the context of system entities is essential for better predictions.
-Recollect the context is high-order information acquired through multi-hop paths.
+Recollect that the entity context is acquired through multi-hop paths representing high-order information.
 A graph neural network (GNN) #cite("shadewatcher-2022", "graph-convolutional-network-2016", "kgat-2019") aims to provide high-order information.
 It employs the concept of message passing, updating entity representations by accumulating recursively propagated neighbour information.
 We achieve information propagation by defining $L$ layers representing $L$ hops in the neighbourhood.

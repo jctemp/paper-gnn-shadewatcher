@@ -35,8 +35,6 @@ Accordingly, leveraging information revealed through DFS can enhance predictions
 Relating this to `ShadeWatcher`, we assume that the collaborative filtering signal is not the driving factor for reliable predictions.
 We expect that DFS in the preprocessing is the crucial step showing the information flow between entities, e.g. the sensitive file and public socket.
 With that, we suggest having BFS for system entities capturing an entity context and DFS for data objects understanding information flow.
-Furthermore, incorporating a temporal encoding refines information regarding information flow due to the encoded time dependency.
-Consequentially, a GNN using this additional information can theoretically provide finer predictions.
 
 Despite the listed ideas, we recommend investigating the influence of `TransR` because there is also the possibility that this step prepared the information signal in a way that allows the GNN to accelerate unexpectedly.
 If this was clarified, follow-up work could plan the direction of research, e.g. replace or remove `TransR` and modify the GNN accordingly, as well as minimise preprocessing.

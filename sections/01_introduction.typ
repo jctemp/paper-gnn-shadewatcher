@@ -36,5 +36,5 @@ Both models compute various embeddings, which are then used to give a recommenda
 The paper is structured as follows.
 We start with a brief overview of the related work in @sec-related-work, discussing other approaches to detect APTs.
 In @sec-concepts, we will cover the used concepts by `ShadeWatcher`, explaining the parts seen in @fig-sw-example in more detail.
-Recommendations follow this in @sec-recommendation, where we explain the recommendation process.
+@sec-recommendation is about the recommendation process.
 Finally, we have a short discussion in @sec-discussion.
