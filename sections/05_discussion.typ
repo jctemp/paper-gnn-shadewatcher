@@ -1,9 +1,10 @@
 = Discussion <sec-discussion>
 
 In this section, we want to discuss `ShadeWatcher`'s abilities.
-We want to pick up on some aspects the authors @shadewatcher-2022 mentioned and our thoughts.
-Note that this discussion will not cover the performance of `ShadeWatcher` because there is no comparison available to make an evaluation.
-For an evaluation, one has to conduct additional work measuring various techniques (e.g. `Unicorn` @unicorn-2020 and `ThreaTrace` @threatrace-2022).
+We want to pick up on some aspects the authors @shadewatcher-2022 mentioned.
+Further, we want to express our thoughts.
+Besides, this discussion will not cover `ShadeWatcher`'s performance because of insufficient comparative data.
+Accordingly, one has to conduct additional work measuring various techniques (e.g. `Unicorn` @unicorn-2020 and `ThreaTrace` @threatrace-2022).
 
 We have noticed that the provenance graph is used in multiple processing steps to extract semantic information about system entities.
 The extra processing steps result in additional used computational resources for graph construction, training and inference (`TransR` and GNN).
@@ -16,8 +17,8 @@ Therefore, we propose to consider the following two aspects:
 - Combining DFS and BFS.
 - Consider temporal information.
 
-To further stress this thought, we have picked two papers #cite("strgnn-2021","tbdfs-2022") discussing temporal and structural information.
-The goal is to extract structural and behavioural information while considering temporal information #cite("shadewatcher-2022", "threatrace-2022", "unicorn-2020", "strgnn-2021", "prov-gem-2021").
+Many models #cite("shadewatcher-2022", "threatrace-2022", "unicorn-2020", "strgnn-2021", "prov-gem-2021") leverage structural, behavioural and temporal information.
+That is why we have picked two papers illustrating the current thought #cite("strgnn-2021","tbdfs-2022").
 
 The first paper @strgnn-2021 presents the so-called `StrGNN` model.
 It is a temporal graph neural network that aims to detect anomalies based on the graph structure.
@@ -30,11 +31,10 @@ Hence, using GAT @gat-2018 with the original attention mechanism has the potenti
 
 The second paper @tbdfs-2022 is more concerned with the marriage of BFS and DFS.
 They utilise two attention-based aggregations for BFS and DFS, where the contribution is controlled with an interpolating factor.
-Additionally, they stressed an exciting idea: distinguish between what neighbours propagate (BFS) and where information is coming from (DFS).
+Additionally, they stressed a valuable idea: With BFS and DFS, one can distinguish between what neighbours propagate (BFS) and where information is coming from (DFS).
 Accordingly, leveraging information revealed through DFS can enhance predictions because a path represents the information flow.
 Relating this to `ShadeWatcher`, we assume that the collaborative filtering signal is not the driving factor for reliable predictions.
 We expect that DFS in the preprocessing is the crucial step showing the information flow between entities, e.g. the sensitive file and public socket.
-With that, we suggest having BFS for system entities capturing an entity context and DFS for data objects understanding information flow.
 
 Despite the listed ideas, we recommend investigating the influence of `TransR` because there is also the possibility that this step prepared the information signal in a way that allows the GNN to accelerate unexpectedly.
 If this was clarified, follow-up work could plan the direction of research, e.g. replace or remove `TransR` and modify the GNN accordingly, as well as minimise preprocessing.

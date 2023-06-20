@@ -183,7 +183,7 @@ The authors limited the root entities by partitioning the entity set ($cal(V)$) 
 The first set contains data objects ($cal(D)$), files and sockets, which will represent root entities.
 All other entities belong to the second subset of system entities ($cal(S)$).
 The final step is to take all descending entities in the subgraph and create root-children interactions.
-These connections will be labelled with an _interact_ relation type.
+These connections will be labelled with an _interact_ relation type; see @fig-kg, the root entity interaction.
 
 Finally, we can define the entity context graph (CG), modelling semantic system entity interactions.
 The corresponding @eq-graph-context expresses the configuration.
@@ -342,7 +342,7 @@ $ <eq-gnn-attention>
 The aggregation function (@eq-gnn-aggregation) is adopted from @kgat-2019, following the `GraphSAGE` @graph-sage-2017 specified criteria (symmetric and trainable).
 In terms of each layer, there is a shared learnable weight represented by $bold(W)^((l))$, which linearly transforms the concatenated values of the current node $h$ and $cal(N)_h$. 
 It is worth mentioning that the symbol $dot || dot$ denotes the used concatenation operator. 
-Additionally, for enhanced expressiveness, the value undergoes a non-linear transformation using a leakyReLU function.
+Additionally, for enhanced expressiveness, the value undergoes a non-linear transformation.
 
 $
 g(bold(z)_h^((l-1)), bold(z)_(cal(N)_h)^((l-1))) = "leakyReLU"((bold(z)_h^((l-1)) || bold(z)_(cal(N)_h)^((l-1)))bold(W)^((l)))
@@ -364,8 +364,8 @@ $ <eq-gnn-cosine-similarity>
 
 For a given prediction $hat(y)_"ht"$, one can label it based on a pre-defined threshold @shadewatcher-2022.
 The optimisation goal is to recommend entities with which a current entity $h$ will not interact.
-Thus, for a positive example, the angle between the embeddings of two entities should be maximised, yielding a negative dot product.
-Likewise, the angle should be minimised for a negative example, yielding a positive dot product. 
+Thus, the angle between the embeddings of two entities should be maximised for casual interactions, yielding a negative dot product.
+Likewise, the angle should be minimised for malicious interactions (unseen connections in the KG), yielding a positive dot product.
 Applying the Bayesian personalised ranking (BPR) optimisation @bpr-2012 for the GNN's loss function (@eq-gnn-loss), the model learns differences in interaction probabilities, thus providing a total order in the ranking.
 Regarding BPR, `ShadeWatcher` replaces the logistic sigmoid function with a softplus function @shadewatcher-source-2022.
 
