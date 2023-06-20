@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# DEPS
+if [ -d "ShadeWatcher" ]; then
+    rm -r ShadeWatcher
+fi
+
+git clone -q https://github.com/jun-zeng/ShadeWatcher.git
+cd ShadeWatcher
+
+for src in data parse recommend config; do
+    dest="../$src"
+    if [ -d "$dest" ]; then
+        rm -r $dest
+    fi
+    mv $src ../
+    echo "Moved $src to $dest."
+done
+
+cd ../
+rm -r ShadeWatcher
+
+# DATASET
+if [ ! -f "darpa-trace.tar.gz" ]; then
+    pip install gdown
+    python ./py/dataset.py
+else
+    echo "Dataset already exists."
+fi
+
+
+# mkdir data/e3/trace
+# tar -xzf darpa-trace.tar.gz -C data/e3/trace
+

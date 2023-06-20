@@ -1,0 +1,11 @@
+version: "3"
+services:
+  shadewatcher:
+    image: shadewatcher:latest
+    container_name: shadewatcher
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./config:/ShadeWatcher/config
+      - ./recommend:/ShadeWatcher/recommend
+      - ./data:/ShadeWatcher/data
